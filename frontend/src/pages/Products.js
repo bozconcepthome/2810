@@ -17,8 +17,10 @@ const Products = () => {
   const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedCategory, setExpandedCategory] = useState(null);
-  const { user } = useAuth();
+  const [addingToCart, setAddingToCart] = useState({});
+  const { user, token } = useAuth();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     trackPageView('Products Page');
