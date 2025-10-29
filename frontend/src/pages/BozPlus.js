@@ -40,7 +40,7 @@ const BozPlus = () => {
     // Check if user is logged in
     if (!token) {
       toast.info('Lütfen önce giriş yapın', {
-        duration: 3000,
+        duration: 1500,
         style: {
           background: '#1C1C1C',
           color: '#fff',
