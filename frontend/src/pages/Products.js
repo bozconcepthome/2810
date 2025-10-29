@@ -115,7 +115,7 @@ const Products = () => {
 
     if (!token) {
       toast.info('Sepete eklemek için giriş yapmalısınız', {
-        duration: 3000,
+        duration: 1500,
         style: {
           background: '#1C1C1C',
           color: '#fff',
@@ -138,7 +138,7 @@ const Products = () => {
       const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
       
       toast.success(randomMessage, {
-        duration: 3000,
+        duration: 1500,
         style: {
           background: 'linear-gradient(135deg, #C9A962 0%, #E6C888 100%)',
           color: '#000',
