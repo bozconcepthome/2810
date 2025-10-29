@@ -14,6 +14,7 @@ import Auth from './pages/Auth';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
+import Account from './pages/Account';
 import BozPlus from './pages/BozPlus';
 import About from './pages/About';
 import AdminLogin from './pages/admin/AdminLogin';
