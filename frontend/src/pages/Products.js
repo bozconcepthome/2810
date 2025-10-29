@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, Grid, Package, Crown, TrendingUp, Flame, Star, ShoppingCart } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import axios from 'axios';
 import { trackPageView, trackCategoryClick, trackProductClick } from '../utils/analytics';
+import { toast } from 'sonner';
+import confetti from 'canvas-confetti';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL + '/api';
 
