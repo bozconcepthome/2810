@@ -301,10 +301,6 @@ const Products = () => {
                         <ShoppingCart className="w-5 h-5" />
                         {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
                       </Button>
-                      >
-                        <ShoppingCart className="w-5 h-5" />
-                        <span>Sepete Ekle</span>
-                      </button>
                     </div>
                   </div>
                 </div>
