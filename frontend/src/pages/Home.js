@@ -183,7 +183,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories Pinterest Style */}
+      {/* Categories Grid */}
       <section className="py-24 bg-black" data-testid="categories-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -201,116 +201,31 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Pinterest-style Category Cards */}
-          <div className="space-y-20">
-            {categories.slice(0, 6).map((category, catIndex) => {
-              const products = categoryProducts[category] || [];
-              if (products.length === 0) return null;
-
-              return (
-                <div key={category} className={`opacity-0 animate-fade-in-up stagger-${catIndex + 1}`}>
-                  {/* Category Header */}
-                  <div className="flex items-center justify-between mb-8">
-                    <div>
-                      <h3 
-                        className="text-3xl sm:text-4xl font-bold text-white mb-2"
-                        style={{ fontFamily: 'Playfair Display, serif' }}
-                      >
-                        {category}
-                      </h3>
-                      <div className="h-1 w-20 bg-gradient-to-r from-[#C9A962] to-[#E6C888] rounded-full"></div>
-                    </div>
-                    <Link 
-                      to={`/products?category=${encodeURIComponent(category)}`}
-                      className="group flex items-center gap-2 text-[#C9A962] hover:text-[#A78D4E] font-medium transition-all"
-                    >
-                      Tümünü Gör
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-
-                  {/* Pinterest Masonry Grid */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {products.map((product, idx) => (
-                      <div
-                        key={product.id}
-                        data-testid={`category-product-${product.id}`}
-                        className={`group relative overflow-hidden rounded-2xl bg-[#1C1C1C] border border-gray-800 hover:border-[#C9A962] shadow-md hover:shadow-2xl transition-all duration-500 opacity-0 animate-scale-in stagger-${idx + 1} ${
-                          idx % 3 === 0 ? 'row-span-2' : 'row-span-1'
-                        }`}
-                        style={{
-                          animationDelay: `${0.1 * idx}s`
-                        }}
-                      >
-                        <Link to={`/products/${product.id}`} className="block">
-                          {/* Product Image */}
-                          <div className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 ${
-                            idx % 3 === 0 ? 'h-96' : 'h-64'
-                          }`}>
-                            {product.image_urls && product.image_urls[0] && (
-                              <img
-                                src={product.image_urls[0]}
-                                alt={product.product_name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                              />
-                            )}
-                            
-                            {/* Overlay on hover */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                <p className="text-xs uppercase tracking-wide mb-1 text-[#E6C888]">
-                                  {product.category}
-                                </p>
-                                <h4 className="font-semibold text-base mb-2 line-clamp-2">
-                                  {product.product_name}
-                                </h4>
-                                <div className="flex items-center justify-between">
-                                  <span className="text-xl font-bold text-[#E6C888]">
-                                    {product.discounted_price || product.price} ₺
-                                  </span>
-                                  <span className="text-xs bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                                    {product.stock_status}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Product Info (Visible on mobile) */}
-                          <div className="p-4 md:hidden">
-                            <p className="text-xs text-gray-400 uppercase mb-1">{product.category}</p>
-                            <h4 className="font-semibold text-sm text-white mb-2 line-clamp-2">
-                              {product.product_name}
-                            </h4>
-                            <span className="text-lg font-bold text-[#C9A962]">
-                              {product.discounted_price || product.price} ₺
-                            </span>
-                          </div>
-                        </Link>
-
-                        {/* Add to Cart Button */}
-                        <div className="p-4 pt-0">
-                          <Button
-                            onClick={(e) => handleAddToCart(e, product)}
-                            disabled={addingToCart[product.id]}
-                            className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold py-2.5 rounded-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
-                          >
-                            <ShoppingCart className="w-4 h-4" />
-                            {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+          {/* Category Cards Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {categories.map((category, index) => (
+              <Link
+                key={category}
+                to={`/products?category=${encodeURIComponent(category)}`}
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1C1C1C] to-[#0A0A0A] border border-gray-800 hover:border-[#C9A962] p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                style={{
+                  animationDelay: `${0.1 * index}s`
+                }}
+              >
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#C9A962] transition-colors">
+                    {category}
+                  </h3>
+                  <ArrowRight className="w-5 h-5 mx-auto text-[#C9A962] opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-              );
-            })}
+              </Link>
+            ))}
           </div>
 
           <div className="text-center mt-16">
             <Link to="/products">
               <Button
-                data-testid="view-all-categories-button"
+                data-testid="view-all-products-button"
                 size="lg"
                 className="bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold px-10 py-6 text-base rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
               >
