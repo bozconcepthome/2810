@@ -28,7 +28,6 @@ const Checkout = () => {
   });
 
   const [ilceList, setIlceList] = useState([]);
-  const [mahalleList, setMahalleList] = useState([]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
