@@ -31,15 +31,6 @@ const Home = () => {
       const response = await axios.get(`${API_URL}/categories`);
       const cats = response.data.categories;
       setCategories(cats);
-      
-      // Fetch products for each category
-      for (const cat of cats.slice(0, 6)) {
-        const productsRes = await axios.get(`${API_URL}/products?category=${encodeURIComponent(cat)}`);
-        setCategoryProducts(prev => ({
-          ...prev,
-          [cat]: productsRes.data.slice(0, 4)
-        }));
-      }
     } catch (error) {
       console.error('Failed to fetch categories:', error);
     }
