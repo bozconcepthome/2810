@@ -359,17 +359,24 @@ const Checkout = () => {
                         <Crown className="w-3 h-3 text-purple-400" />
                         <span className="text-purple-400 font-semibold">Bedava</span>
                       </div>
-                    ) : shippingCost === 0 ? (
-                      <span className="text-green-400 font-semibold">Bedava</span>
                     ) : (
                       <span className="text-white font-semibold">{shippingCost.toFixed(2)} ₺</span>
                     )}
                   </div>
                   
-                  {!isMinimumMet && !isBozPlus && (
-                    <div className="p-2 bg-orange-500/10 border border-orange-500/30 rounded-lg">
-                      <p className="text-xs text-orange-400">
-                        {(MINIMUM_ORDER - total).toFixed(2)} ₺ daha alışveriş yapın, kargo bedava!
+                  {!isMinimumMet && (
+                    <div className="p-2 bg-red-500/10 border border-red-500/30 rounded-lg">
+                      <p className="text-xs text-red-400">
+                        ⚠️ Minimum sipariş tutarı 500 TL'dir. 
+                        {(MINIMUM_ORDER - total).toFixed(2)} ₺ daha ürün ekleyin.
+                      </p>
+                    </div>
+                  )}
+                  
+                  {!isBozPlus && isMinimumMet && (
+                    <div className="p-2 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                      <p className="text-xs text-blue-400">
+                        💡 BOZ PLUS üyelerimiz her siparişte kargo ödemez!
                       </p>
                     </div>
                   )}
