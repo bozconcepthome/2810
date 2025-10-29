@@ -15,6 +15,10 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState({});
+  const { user, token } = useAuth();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const [addingToCart, setAddingToCart] = useState({});
 
   useEffect(() => {
     trackPageView('Home Page');
