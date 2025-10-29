@@ -75,6 +75,17 @@ const Navbar = () => {
             >
               Ürünler
             </Link>
+            
+            {/* BOZ PLUS Link - Always Visible */}
+            <Link
+              to="/boz-plus"
+              data-testid="nav-boz-plus"
+              className="flex items-center gap-1 text-sm font-medium bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent hover:from-[#A855F7] hover:to-[#8B5CF6] transition-all"
+            >
+              <Crown className="w-4 h-4 text-purple-400" />
+              BOZ PLUS
+            </Link>
+            
             <Link
               to="/cart"
               data-testid="nav-cart"
