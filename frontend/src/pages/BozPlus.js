@@ -16,11 +16,11 @@ const BozPlus = () => {
   const [requesting, setRequesting] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      navigate('/auth');
-      return;
+    if (token) {
+      fetchBozPlusStatus();
+    } else {
+      setLoading(false);
     }
-    fetchBozPlusStatus();
   }, [token]);
 
   const fetchBozPlusStatus = async () => {
