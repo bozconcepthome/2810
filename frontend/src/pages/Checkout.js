@@ -297,12 +297,17 @@ const Checkout = () => {
                   <div className="space-y-4">
                     <div className="p-6 bg-gray-900 border-2 border-[#C9A962] rounded-xl">
                       <div className="flex items-center gap-3 mb-2">
-                        <Package className="w-6 h-6 text-[#C9A962]" />
-                        <h3 className="text-lg font-bold text-white">Kapıda Ödeme</h3>
+                        <CreditCard className="w-6 h-6 text-[#C9A962]" />
+                        <h3 className="text-lg font-bold text-white">Kredi Kartı</h3>
                       </div>
                       <p className="text-gray-400 text-sm">
-                        Siparişiniz size ulaştığında nakit olarak ödeme yapabilirsiniz.
+                        Güvenli ödeme ile kredi kartınızla ödeyin.
                       </p>
+                      <div className="mt-4 flex items-center gap-2">
+                        <div className="px-3 py-1 bg-gray-800 rounded text-xs text-gray-300">Visa</div>
+                        <div className="px-3 py-1 bg-gray-800 rounded text-xs text-gray-300">Mastercard</div>
+                        <div className="px-3 py-1 bg-gray-800 rounded text-xs text-gray-300">Troy</div>
+                      </div>
                     </div>
 
                     <Button
