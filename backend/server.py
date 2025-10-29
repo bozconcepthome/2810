@@ -77,6 +77,7 @@ class Product(BaseModel):
     dimensions: Optional[str] = None
     materials: Optional[str] = None
     colors: Optional[str] = None
+    barcode: Optional[str] = None
     stock_status: str = "Stokta"
     stock_amount: Optional[int] = None
     image_urls: List[str] = []
