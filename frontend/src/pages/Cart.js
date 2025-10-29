@@ -213,27 +213,75 @@ const Cart = () => {
                   </div>
                   <div className="flex justify-between text-gray-400">
                     <span>Kargo</span>
-                    <span className="text-green-400 font-semibold">Ücretsiz</span>
+                    {isBozPlus ? (
+                      <div className="flex items-center gap-1">
+                        <Crown className="w-3 h-3 text-purple-400" />
+                        <span className="text-purple-400 font-semibold">Bedava</span>
+                      </div>
+                    ) : shippingCost === 0 ? (
+                      <span className="text-green-400 font-semibold">Bedava</span>
+                    ) : (
+                      <span className="text-white font-semibold">{shippingCost.toFixed(2)} ₺</span>
+                    )}
                   </div>
+                  
+                  {/* 500 TL altı uyarısı */}
+                  {!isMinimumMet && !isBozPlus && (
+                    <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-lg space-y-2">
+                      <p className="text-xs text-orange-400">
+                        💰 {(MINIMUM_ORDER - total).toFixed(2)} ₺ daha alışveriş yapın, kargo bedava olsun!
+                      </p>
+                      <Link
+                        to="/products"
+                        className="block w-full text-center py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs font-bold rounded-lg transition-all"
+                      >
+                        Alışverişe Devam Et →
+                      </Link>
+                    </div>
+                  )}
+                  
+                  {/* BOZ PLUS teşvik mesajı */}
+                  {!isBozPlus && (
+                    <div className="p-3 bg-gradient-to-r from-purple-900/20 to-violet-900/20 border border-purple-500/30 rounded-lg">
+                      <div className="flex items-start gap-2 mb-2">
+                        <Crown className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1">
+                          <p className="text-xs text-purple-300 font-semibold mb-1">
+                            BOZ PLUS üyeleri her siparişte kargo ödemez!
+                          </p>
+                          <p className="text-xs text-purple-400/80">
+                            {shippingCost > 0 
+                              ? `Bu siparişte ${shippingCost.toFixed(2)} ₺ kargo tasarrufu yapın!`
+                              : 'Her siparişinizde kargo bedava olsun!'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        to="/boz-plus"
+                        className="block w-full text-center py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#7C3AED] hover:to-[#8B5CF6] text-white text-xs font-bold rounded-lg transition-all"
+                      >
+                        BOZ PLUS'a Katıl →
+                      </Link>
+                    </div>
+                  )}
+                  
                   <div className="border-t border-gray-800 pt-4">
                     <div className="flex justify-between items-center">
                       <span className="text-lg font-semibold text-white">Toplam</span>
                       <span className="text-3xl font-bold bg-gradient-to-r from-[#C9A962] to-[#D4AF37] bg-clip-text text-transparent">
-                        {total.toFixed(2)} ₺
+                        {finalTotal.toFixed(2)} ₺
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {user?.is_boz_plus && (
+                {isBozPlus && (
                   <div className="mb-6 p-4 bg-gradient-to-r from-purple-900/20 to-violet-900/20 border border-purple-500/30 rounded-xl">
                     <div className="flex items-center gap-2 mb-1">
                       <Crown className="w-4 h-4 text-purple-400" />
-                      <span className="text-sm font-semibold text-purple-300">BOZ PLUS Avantajı</span>
+                      <span className="text-sm font-semibold text-purple-300">BOZ PLUS - Kargo Bedava! 🎉</span>
                     </div>
-                    <p className="text-xs text-purple-200">
-                      Özel fiyatlardan faydalanıyorsunuz
-                    </p>
                   </div>
                 )}
 
