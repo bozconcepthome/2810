@@ -84,6 +84,20 @@ function App() {
                   <Footer />
                 </>
               } />
+              <Route path="/forgot-password" element={
+                <>
+                  <Navbar />
+                  <ForgotPassword />
+                  <Footer />
+                </>
+              } />
+              <Route path="/reset-password" element={
+                <>
+                  <Navbar />
+                  <ResetPassword />
+                  <Footer />
+                </>
+              } />
               <Route path="/cart" element={
                 <>
                   <Navbar />
