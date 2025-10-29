@@ -292,12 +292,15 @@ const Products = () => {
                       </div>
 
                       {/* Add to Cart Button */}
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          addToCart(product.id);
-                        }}
+                      <Button
+                        onClick={(e) => handleAddToCart(e, product)}
+                        disabled={addingToCart[product.id]}
                         className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#C9A962] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#C9A962] text-black font-bold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
+                        data-testid={`add-to-cart-${product.id}`}
+                      >
+                        <ShoppingCart className="w-5 h-5" />
+                        {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
+                      </Button>
                       >
                         <ShoppingCart className="w-5 h-5" />
                         <span>Sepete Ekle</span>
