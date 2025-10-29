@@ -201,6 +201,7 @@ class ProductUpdate(BaseModel):
     dimensions: Optional[str] = None
     materials: Optional[str] = None
     colors: Optional[str] = None
+    barcode: Optional[str] = None
     stock_status: Optional[str] = None
     stock_amount: Optional[int] = None
     image_urls: Optional[List[str]] = None
