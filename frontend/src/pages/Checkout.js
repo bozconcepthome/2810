@@ -100,6 +100,21 @@ const Checkout = () => {
 
   const total = getCartTotal();
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  
+  // Kargo hesaplaması
+  const MINIMUM_ORDER = 500;
+  const SHIPPING_COST = 150;
+  const isBozPlus = user?.is_boz_plus || false;
+  
+  const calculateShipping = () => {
+    if (isBozPlus) return 0; // BOZ PLUS üyeleri için bedava
+    if (total >= MINIMUM_ORDER) return 0; // 500 TL ve üzeri bedava
+    return SHIPPING_COST; // 500 TL altı için 150 TL
+  };
+  
+  const shippingCost = calculateShipping();
+  const finalTotal = total + shippingCost;
+  const isMinimumMet = total >= MINIMUM_ORDER;
 
   return (
     <div className="min-h-screen pt-24 pb-20 bg-black">
