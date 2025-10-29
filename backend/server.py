@@ -294,8 +294,56 @@ async def get_me(current_user: User = Depends(get_current_user)):
     return {
         "id": current_user.id,
         "email": current_user.email,
-        "full_name": current_user.full_name
+        "full_name": current_user.full_name,
+        "is_boz_plus": current_user.get("is_boz_plus", False),
+        "boz_plus_expires_at": current_user.get("boz_plus_expires_at")
     }
+
+@api_router.put("/auth/update-email")
+async def update_email(
+    new_email: str = Body(..., embed=True),
+    password: str = Body(..., embed=True),
+    current_user: User = Depends(get_current_user)
+):
+    """Update user email address"""
+    # Verify current password
+    if not pwd_context.verify(password, current_user.hashed_password):
+        raise HTTPException(status_code=400, detail="Mevcut şifre yanlış")
+    
+    # Check if new email already exists
+    existing_user = await users_collection.find_one({"email": new_email})
+    if existing_user and existing_user["id"] != current_user.id:
+        raise HTTPException(status_code=400, detail="Bu e-posta adresi zaten kullanılıyor")
+    
+    # Update email
+    await users_collection.update_one(
+        {"id": current_user.id},
+        {"$set": {"email": new_email}}
+    )
+    
+    return {"message": "E-posta başarıyla güncellendi", "new_email": new_email}
+
+@api_router.put("/auth/update-password")
+async def update_password(
+    current_password: str = Body(..., embed=True),
+    new_password: str = Body(..., embed=True),
+    current_user: User = Depends(get_current_user)
+):
+    """Update user password"""
+    # Verify current password
+    if not pwd_context.verify(current_password, current_user.hashed_password):
+        raise HTTPException(status_code=400, detail="Mevcut şifre yanlış")
+    
+    # Hash new password
+    hashed_new_password = pwd_context.hash(new_password)
+    
+    # Update password
+    await users_collection.update_one(
+        {"id": current_user.id},
+        {"$set": {"hashed_password": hashed_new_password}}
+    )
+    
+    return {"message": "Şifre başarıyla güncellendi"}
 
 # ============ PRODUCT ROUTES ============
 
