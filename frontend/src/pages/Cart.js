@@ -58,6 +58,21 @@ const Cart = () => {
 
   const total = getCartTotal();
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  
+  // Kargo hesaplaması
+  const MINIMUM_ORDER = 500;
+  const SHIPPING_COST = 100;
+  const isBozPlus = user?.is_boz_plus || false;
+  
+  const calculateShipping = () => {
+    if (isBozPlus) return 0;
+    if (total >= MINIMUM_ORDER) return 0;
+    return SHIPPING_COST;
+  };
+  
+  const shippingCost = calculateShipping();
+  const finalTotal = total + shippingCost;
+  const isMinimumMet = total >= MINIMUM_ORDER;
 
   return (
     <div className="min-h-screen pt-24 pb-20 bg-black">
