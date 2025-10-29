@@ -215,17 +215,13 @@ const Checkout = () => {
                       <label className="block text-sm font-semibold text-gray-300 mb-2">
                         Mahalle <span className="text-red-500">*</span>
                       </label>
-                      <select
+                      <input
+                        type="text"
                         value={shippingInfo.mahalle}
                         onChange={(e) => setShippingInfo({ ...shippingInfo, mahalle: e.target.value })}
-                        disabled={!shippingInfo.ilce}
-                        className={`w-full px-4 py-3 bg-gray-900 border ${errors.mahalle ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white focus:outline-none focus:border-[#C9A962] disabled:opacity-50`}
-                      >
-                        <option value="">Mahalle Seçin</option>
-                        {mahalleList.map(mahalle => (
-                          <option key={mahalle} value={mahalle}>{mahalle}</option>
-                        ))}
-                      </select>
+                        className={`w-full px-4 py-3 bg-gray-900 border ${errors.mahalle ? 'border-red-500' : 'border-gray-700'} rounded-lg text-white focus:outline-none focus:border-[#C9A962]`}
+                        placeholder="Mahalle adını yazın"
+                      />
                       {errors.mahalle && <p className="text-red-500 text-sm mt-1">{errors.mahalle}</p>}
                     </div>
                   </div>
