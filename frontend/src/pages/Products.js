@@ -374,75 +374,90 @@ const Products = () => {
                 <div className="p-6">
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
                     {displayProducts.map((product) => (
-                      <Link
+                      <div
                         key={product.id}
-                        to={`/products/${product.id}`}
-                        onClick={() => handleProductClick(product)}
                         data-testid={`product-card-${product.id}`}
-                        className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300 hover:scale-105"
+                        className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300"
                       >
-                        {/* Product Image */}
-                        <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-900 to-black">
-                          {product.image_urls && product.image_urls[0] ? (
-                            <img
-                              src={product.image_urls[0]}
-                              alt={product.product_name}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <Package className="w-12 h-12 text-gray-700" />
-                            </div>
-                          )}
-                          
-                          {/* Hover Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="absolute bottom-0 left-0 right-0 p-4">
-                              <div className="flex items-center justify-between text-white">
-                                <span className="text-sm font-semibold">Detaylar</span>
-                                <ChevronRight className="w-4 h-4" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Product Info */}
-                        <div className="p-4">
-                          <h3 className="text-sm font-semibold text-white mb-2 line-clamp-2 group-hover:text-[#C9A962] transition">
-                            {product.product_name}
-                          </h3>
-                          <div className="flex flex-col space-y-2">
-                            {/* Regular Price */}
-                            <div className="flex items-center justify-between">
-                              <span className="text-lg font-bold text-[#C9A962]">
-                                {product.discounted_price || product.price} ₺
-                              </span>
-                              {product.stock_status === 'Stokta' && (
-                                <span className="text-xs text-green-500 bg-green-500/10 px-2 py-1 rounded-full">
-                                  Stokta
-                                </span>
-                              )}
-                            </div>
-                            
-                            {/* BOZ PLUS Price - Everyone can see */}
-                            {product.boz_plus_price && (
-                              <div className="bg-gradient-to-r from-purple-900/20 via-violet-900/20 to-purple-900/20 border-2 border-purple-500 rounded-lg px-3 py-2 shadow-[0_0_15px_rgba(255,215,0,0.3)]">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center space-x-2">
-                                    <Crown className="w-4 h-4 text-[#FFD700] fill-[#FFD700]" />
-                                    <span className="text-base font-extrabold bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent">
-                                      {product.boz_plus_price} ₺
-                                    </span>
-                                  </div>
-                                  {!user?.is_boz_plus && (
-                                    <span className="text-xs bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent font-bold">🔥 Üye Fiyatı</span>
-                                  )}
-                                </div>
+                        <Link
+                          to={`/products/${product.id}`}
+                          onClick={() => handleProductClick(product)}
+                        >
+                          {/* Product Image */}
+                          <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-gray-900 to-black">
+                            {product.image_urls && product.image_urls[0] ? (
+                              <img
+                                src={product.image_urls[0]}
+                                alt={product.product_name}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <Package className="w-12 h-12 text-gray-700" />
                               </div>
                             )}
+                            
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <div className="absolute bottom-0 left-0 right-0 p-4">
+                                <div className="flex items-center justify-between text-white">
+                                  <span className="text-sm font-semibold">Detaylar</span>
+                                  <ChevronRight className="w-4 h-4" />
+                                </div>
+                              </div>
+                            </div>
                           </div>
+
+                          {/* Product Info */}
+                          <div className="p-4">
+                            <h3 className="text-sm font-semibold text-white mb-2 line-clamp-2 group-hover:text-[#C9A962] transition">
+                              {product.product_name}
+                            </h3>
+                            <div className="flex flex-col space-y-2">
+                              {/* Regular Price */}
+                              <div className="flex items-center justify-between">
+                                <span className="text-lg font-bold text-[#C9A962]">
+                                  {product.discounted_price || product.price} ₺
+                                </span>
+                                {product.stock_status === 'Stokta' && (
+                                  <span className="text-xs text-green-500 bg-green-500/10 px-2 py-1 rounded-full">
+                                    Stokta
+                                  </span>
+                                )}
+                              </div>
+                              
+                              {/* BOZ PLUS Price - Everyone can see */}
+                              {product.boz_plus_price && (
+                                <div className="bg-gradient-to-r from-purple-900/20 via-violet-900/20 to-purple-900/20 border-2 border-purple-500 rounded-lg px-3 py-2 shadow-[0_0_15px_rgba(255,215,0,0.3)]">
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-2">
+                                      <Crown className="w-4 h-4 text-[#FFD700] fill-[#FFD700]" />
+                                      <span className="text-base font-extrabold bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent">
+                                        {product.boz_plus_price} ₺
+                                      </span>
+                                    </div>
+                                    {!user?.is_boz_plus && (
+                                      <span className="text-xs bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent font-bold">🔥 Üye Fiyatı</span>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+
+                        {/* Add to Cart Button */}
+                        <div className="px-4 pb-4">
+                          <Button
+                            onClick={(e) => handleAddToCart(e, product)}
+                            disabled={addingToCart[product.id]}
+                            className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold py-2.5 rounded-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+                          >
+                            <ShoppingCart className="w-4 h-4" />
+                            {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
+                          </Button>
                         </div>
-                      </Link>
+                      </div>
                     ))}
                   </div>
 
