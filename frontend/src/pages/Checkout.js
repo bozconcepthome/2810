@@ -76,7 +76,9 @@ const Checkout = () => {
     try {
       const orderData = {
         shipping_address: `${shippingInfo.fullName}, ${shippingInfo.phone}, ${shippingInfo.mahalle}, ${shippingInfo.ilce}, ${shippingInfo.il}, ${shippingInfo.address}${shippingInfo.notes ? `, Not: ${shippingInfo.notes}` : ''}`,
-        payment_method: 'Kapıda Ödeme'
+        payment_method: 'Kredi Kartı',
+        shipping_cost: shippingCost,
+        final_total: finalTotal
       };
 
       await axios.post(`${API_URL}/orders`, orderData, {
