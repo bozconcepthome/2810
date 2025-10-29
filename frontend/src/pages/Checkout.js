@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { turkeyData, getMahallelerForIlce } from '../data/turkeyData';
+import { turkeyData } from '../data/turkeyData';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL + '/api';
 
