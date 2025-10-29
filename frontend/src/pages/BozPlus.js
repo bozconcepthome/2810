@@ -137,7 +137,7 @@ const BozPlus = () => {
               </div>
             </div>
           </div>
-        ) : bozPlusStatus?.boz_plus_requested ? (
+        ) : token && bozPlusStatus?.boz_plus_requested ? (
           <div className="bg-yellow-900/30 border-2 border-yellow-500 rounded-2xl p-8 mb-12">
             <div className="text-center">
               <Clock className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
