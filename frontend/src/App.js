@@ -103,6 +103,13 @@ function App() {
                   <Footer />
                 </>
               } />
+              <Route path="/account" element={
+                <>
+                  <Navbar />
+                  <Account />
+                  <Footer />
+                </>
+              } />
               <Route path="/boz-plus" element={
                 <>
                   <Navbar />
