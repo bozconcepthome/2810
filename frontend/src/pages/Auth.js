@@ -119,6 +119,18 @@ const Auth = () => {
               />
             </div>
 
+            {isLogin && (
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => navigate('/forgot-password')}
+                  className="text-sm text-amber-700 hover:text-amber-800 font-medium"
+                >
+                  Şifremi Unuttum
+                </button>
+              </div>
+            )}
+
             <Button
               type="submit"
               data-testid="auth-submit-button"
