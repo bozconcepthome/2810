@@ -241,9 +241,8 @@ const Home = () => {
                   {/* Pinterest Masonry Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     {products.map((product, idx) => (
-                      <Link
+                      <div
                         key={product.id}
-                        to={`/products/${product.id}`}
                         data-testid={`category-product-${product.id}`}
                         className={`group relative overflow-hidden rounded-2xl bg-[#1C1C1C] border border-gray-800 hover:border-[#C9A962] shadow-md hover:shadow-2xl transition-all duration-500 opacity-0 animate-scale-in stagger-${idx + 1} ${
                           idx % 3 === 0 ? 'row-span-2' : 'row-span-1'
@@ -252,50 +251,64 @@ const Home = () => {
                           animationDelay: `${0.1 * idx}s`
                         }}
                       >
-                        {/* Product Image */}
-                        <div className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 ${
-                          idx % 3 === 0 ? 'h-96' : 'h-64'
-                        }`}>
-                          {product.image_urls && product.image_urls[0] && (
-                            <img
-                              src={product.image_urls[0]}
-                              alt={product.product_name}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                            />
-                          )}
-                          
-                          {/* Overlay on hover */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                              <p className="text-xs uppercase tracking-wide mb-1 text-[#E6C888]">
-                                {product.category}
-                              </p>
-                              <h4 className="font-semibold text-base mb-2 line-clamp-2">
-                                {product.product_name}
-                              </h4>
-                              <div className="flex items-center justify-between">
-                                <span className="text-xl font-bold text-[#E6C888]">
-                                  {product.discounted_price || product.price} ₺
-                                </span>
-                                <span className="text-xs bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                                  {product.stock_status}
-                                </span>
+                        <Link to={`/products/${product.id}`} className="block">
+                          {/* Product Image */}
+                          <div className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 ${
+                            idx % 3 === 0 ? 'h-96' : 'h-64'
+                          }`}>
+                            {product.image_urls && product.image_urls[0] && (
+                              <img
+                                src={product.image_urls[0]}
+                                alt={product.product_name}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              />
+                            )}
+                            
+                            {/* Overlay on hover */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                <p className="text-xs uppercase tracking-wide mb-1 text-[#E6C888]">
+                                  {product.category}
+                                </p>
+                                <h4 className="font-semibold text-base mb-2 line-clamp-2">
+                                  {product.product_name}
+                                </h4>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-xl font-bold text-[#E6C888]">
+                                    {product.discounted_price || product.price} ₺
+                                  </span>
+                                  <span className="text-xs bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                                    {product.stock_status}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Product Info (Visible on mobile) */}
-                        <div className="p-4 md:hidden">
-                          <p className="text-xs text-gray-400 uppercase mb-1">{product.category}</p>
-                          <h4 className="font-semibold text-sm text-white mb-2 line-clamp-2">
-                            {product.product_name}
-                          </h4>
-                          <span className="text-lg font-bold text-[#C9A962]">
-                            {product.discounted_price || product.price} ₺
-                          </span>
+                          {/* Product Info (Visible on mobile) */}
+                          <div className="p-4 md:hidden">
+                            <p className="text-xs text-gray-400 uppercase mb-1">{product.category}</p>
+                            <h4 className="font-semibold text-sm text-white mb-2 line-clamp-2">
+                              {product.product_name}
+                            </h4>
+                            <span className="text-lg font-bold text-[#C9A962]">
+                              {product.discounted_price || product.price} ₺
+                            </span>
+                          </div>
+                        </Link>
+
+                        {/* Add to Cart Button */}
+                        <div className="p-4 pt-0">
+                          <Button
+                            onClick={(e) => handleAddToCart(e, product)}
+                            disabled={addingToCart[product.id]}
+                            className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold py-2.5 rounded-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+                          >
+                            <ShoppingCart className="w-4 h-4" />
+                            {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
+                          </Button>
                         </div>
-                      </Link>
+                      </div>
                     ))}
                   </div>
                 </div>
