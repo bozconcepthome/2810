@@ -369,10 +369,16 @@ const Checkout = () => {
                   
                   {/* 500 TL altı uyarısı */}
                   {!isMinimumMet && !isBozPlus && (
-                    <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-lg">
-                      <p className="text-xs text-orange-400 mb-2">
+                    <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-lg space-y-2">
+                      <p className="text-xs text-orange-400">
                         💰 {(MINIMUM_ORDER - total).toFixed(2)} ₺ daha alışveriş yapın, kargo bedava olsun!
                       </p>
+                      <Link
+                        to="/products"
+                        className="block w-full text-center py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs font-bold rounded-lg transition-all"
+                      >
+                        Alışverişe Devam Et →
+                      </Link>
                     </div>
                   )}
                   
