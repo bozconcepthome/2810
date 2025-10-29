@@ -388,22 +388,30 @@ const Checkout = () => {
                       <div className="flex items-start gap-2 mb-2">
                         <Crown className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
                         <div className="flex-1">
-                          <p className="text-xs text-purple-300 font-semibold mb-1">
-                            BOZ PLUS üyeleri her siparişte kargo ödemez!
+                          <p className="text-xs text-purple-300 font-bold mb-1">
+                            BOZ PLUS ile Kazanın! 👑
                           </p>
-                          <p className="text-xs text-purple-400/80">
-                            {shippingCost > 0 
-                              ? `Bu siparişte ${shippingCost.toFixed(2)} ₺ kargo tasarrufu yapın!`
-                              : 'Her siparişinizde kargo bedava olsun!'
-                            }
-                          </p>
+                          <ul className="text-xs text-purple-400/90 space-y-1 mb-2">
+                            <li className="flex items-start gap-1">
+                              <span className="text-purple-300 mt-0.5">•</span>
+                              <span>Her siparişte <strong className="text-purple-300">kargo bedava</strong></span>
+                            </li>
+                            <li className="flex items-start gap-1">
+                              <span className="text-purple-300 mt-0.5">•</span>
+                              <span>Tüm ürünlerde <strong className="text-purple-300">özel indirimli fiyatlar</strong></span>
+                            </li>
+                            <li className="flex items-start gap-1">
+                              <span className="text-purple-300 mt-0.5">•</span>
+                              <span>Bu siparişte <strong className="text-purple-300">{shippingCost > 0 ? `${shippingCost.toFixed(0)} ₺` : '100 ₺+'}</strong> tasarruf!</span>
+                            </li>
+                          </ul>
                         </div>
                       </div>
                       <Link
                         to="/boz-plus"
                         className="block w-full text-center py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#7C3AED] hover:to-[#8B5CF6] text-white text-xs font-bold rounded-lg transition-all"
                       >
-                        BOZ PLUS'a Katıl →
+                        Hemen BOZ PLUS Ol ve Kazanmaya Başla! →
                       </Link>
                     </div>
                   )}
