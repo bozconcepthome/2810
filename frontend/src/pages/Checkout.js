@@ -360,25 +360,45 @@ const Checkout = () => {
                         <Crown className="w-3 h-3 text-purple-400" />
                         <span className="text-purple-400 font-semibold">Bedava</span>
                       </div>
+                    ) : shippingCost === 0 ? (
+                      <span className="text-green-400 font-semibold">Bedava</span>
                     ) : (
                       <span className="text-white font-semibold">{shippingCost.toFixed(2)} ₺</span>
                     )}
                   </div>
                   
-                  {!isMinimumMet && (
-                    <div className="p-2 bg-red-500/10 border border-red-500/30 rounded-lg">
-                      <p className="text-xs text-red-400">
-                        ⚠️ Minimum sipariş tutarı 500 TL'dir. 
-                        {(MINIMUM_ORDER - total).toFixed(2)} ₺ daha ürün ekleyin.
+                  {/* 500 TL altı uyarısı */}
+                  {!isMinimumMet && !isBozPlus && (
+                    <div className="p-3 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+                      <p className="text-xs text-orange-400 mb-2">
+                        💰 {(MINIMUM_ORDER - total).toFixed(2)} ₺ daha alışveriş yapın, kargo bedava olsun!
                       </p>
                     </div>
                   )}
                   
-                  {!isBozPlus && isMinimumMet && (
-                    <div className="p-2 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-                      <p className="text-xs text-blue-400">
-                        💡 BOZ PLUS üyelerimiz her siparişte kargo ödemez!
-                      </p>
+                  {/* BOZ PLUS teşvik mesajı */}
+                  {!isBozPlus && (
+                    <div className="p-3 bg-gradient-to-r from-purple-900/20 to-violet-900/20 border border-purple-500/30 rounded-lg">
+                      <div className="flex items-start gap-2 mb-2">
+                        <Crown className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+                        <div className="flex-1">
+                          <p className="text-xs text-purple-300 font-semibold mb-1">
+                            BOZ PLUS üyeleri her siparişte kargo ödemez!
+                          </p>
+                          <p className="text-xs text-purple-400/80">
+                            {shippingCost > 0 
+                              ? `Bu siparişte ${shippingCost.toFixed(2)} ₺ kargo tasarrufu yapın!`
+                              : 'Her siparişinizde kargo bedava olsun!'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        to="/boz-plus"
+                        className="block w-full text-center py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#7C3AED] hover:to-[#8B5CF6] text-white text-xs font-bold rounded-lg transition-all"
+                      >
+                        BOZ PLUS'a Katıl →
+                      </Link>
                     </div>
                   )}
                   
