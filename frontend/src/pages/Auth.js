@@ -25,7 +25,7 @@ const Auth = () => {
     try {
       if (isLogin) {
         await login(formData.email, formData.password);
-        toast.success('Giriş başarılı!');
+        toast.success('Boz Concept Home Hoş geldiniz', { duration: 1500 });
       } else {
         await register(formData.email, formData.full_name, formData.password, formData.phone_number);
         toast.success('Kayıt başarılı!');
