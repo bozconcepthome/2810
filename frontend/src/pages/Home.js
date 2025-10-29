@@ -257,8 +257,9 @@ const Home = () => {
             className="text-[12rem] sm:text-[16rem] lg:text-[20rem] font-bold text-[#C9A962] whitespace-nowrap leading-none"
             style={{ 
               fontFamily: 'Playfair Display, serif',
-              opacity: '0.03',
-              transform: 'translateY(-10%)'
+              opacity: '0.08',
+              transform: 'translateY(-10%)',
+              WebkitTextStroke: '1px rgba(201, 169, 98, 0.15)'
             }}
           >
             Boz Concept Home
