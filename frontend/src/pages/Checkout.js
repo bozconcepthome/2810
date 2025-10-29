@@ -40,17 +40,8 @@ const Checkout = () => {
     if (shippingInfo.il) {
       setIlceList(turkeyData[shippingInfo.il] || []);
       setShippingInfo(prev => ({ ...prev, ilce: '', mahalle: '' }));
-      setMahalleList([]);
     }
   }, [shippingInfo.il]);
-
-  useEffect(() => {
-    if (shippingInfo.ilce) {
-      const mahalleler = getMahallelerForIlce(shippingInfo.ilce);
-      setMahalleList(mahalleler);
-      setShippingInfo(prev => ({ ...prev, mahalle: '' }));
-    }
-  }, [shippingInfo.ilce]);
 
   const validateShipping = () => {
     const newErrors = {};
