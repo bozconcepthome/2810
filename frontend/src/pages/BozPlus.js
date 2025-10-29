@@ -37,6 +37,20 @@ const BozPlus = () => {
   };
 
   const handleRequestBozPlus = async () => {
+    // Check if user is logged in
+    if (!token) {
+      toast.info('Lütfen önce giriş yapın', {
+        duration: 3000,
+        style: {
+          background: '#1C1C1C',
+          color: '#fff',
+          border: '1px solid #C9A962'
+        }
+      });
+      navigate('/auth');
+      return;
+    }
+
     setRequesting(true);
     try {
       await axios.post(
