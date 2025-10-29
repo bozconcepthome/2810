@@ -140,6 +140,16 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-black" data-testid="home-page">
+      {/* Boz Concept Home Title Banner */}
+      <div className="bg-gradient-to-r from-[#1C1C1C] via-[#C9A962] to-[#1C1C1C] py-6 text-center border-b border-[#C9A962]/30">
+        <h1 
+          className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-wide"
+          style={{ fontFamily: 'Playfair Display, serif' }}
+        >
+          Boz Concept Home
+        </h1>
+      </div>
+
       {/* Hero Video Section */}
       <section className="relative h-screen overflow-hidden" data-testid="hero-section">
         <video
