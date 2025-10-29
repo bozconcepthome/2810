@@ -327,16 +327,16 @@ const Checkout = () => {
 
                 <div className="space-y-3 border-t border-gray-800 pt-4">
                   <div className="flex justify-between text-gray-400">
-                    <span>Ara Toplam ({itemCount} ürün)</span>
+                    <span></span>
                     <span className="text-white font-semibold">{total.toFixed(2)} ₺</span>
                   </div>
                   <div className="flex justify-between text-gray-400">
-                    <span>Kargo</span>
-                    <span className="text-green-400 font-semibold">Ücretsiz</span>
+                    <span></span>
+                    <span className="text-green-400 font-semibold"></span>
                   </div>
                   <div className="border-t border-gray-800 pt-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-semibold text-white">Toplam</span>
+                      <span className="text-lg font-semibold text-white"></span>
                       <span className="text-2xl font-bold bg-gradient-to-r from-[#C9A962] to-[#D4AF37] bg-clip-text text-transparent">
                         {total.toFixed(2)} ₺
                       </span>
