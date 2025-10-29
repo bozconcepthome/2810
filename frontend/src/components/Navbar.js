@@ -121,42 +121,43 @@ const Navbar = () => {
                   )}
                 </Link>
 
-                {/* Account Dropdown */}
-                <div className="relative" ref={accountMenuRef}>
-                  <button
-                    onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                    className="flex items-center gap-2 text-white hover:text-[#C9A962] transition-all"
-                  >
-                    <div className="flex flex-col items-end">
-                      {user.is_boz_plus && (
-                        <span className="text-[10px] font-bold bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent uppercase tracking-wider">
-                          ⭐ BOZ PLUS ⭐
-                        </span>
-                      )}
-                      <span className={`text-sm font-medium ${
-                        user.is_boz_plus 
-                          ? 'bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent font-bold' 
-                          : 'text-white'
-                      }`}>
-                        Hesabım
-                      </span>
-                    </div>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${accountMenuOpen ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {/* Dropdown Menu */}
-                  {accountMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-[#1C1C1C] border border-gray-800 rounded-xl shadow-xl overflow-hidden z-50">
-                      <div className="px-4 py-3 border-b border-gray-800">
-                        <p className={`font-semibold ${
+                {/* Account Dropdown or Login Button */}
+                {user ? (
+                  <div className="relative" ref={accountMenuRef}>
+                    <button
+                      onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+                      className="flex items-center gap-2 text-white hover:text-[#C9A962] transition-all"
+                    >
+                      <div className="flex flex-col items-end">
+                        {user.is_boz_plus && (
+                          <span className="text-[10px] font-bold bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent uppercase tracking-wider">
+                            ⭐ BOZ PLUS ⭐
+                          </span>
+                        )}
+                        <span className={`text-sm font-medium ${
                           user.is_boz_plus 
-                            ? 'bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent' 
+                            ? 'bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent font-bold' 
                             : 'text-white'
                         }`}>
-                          {user.full_name}
-                        </p>
-                        <p className="text-sm text-gray-400">{user.email}</p>
+                          Hesabım
+                        </span>
                       </div>
+                      <ChevronDown className={`w-4 h-4 transition-transform ${accountMenuOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {accountMenuOpen && (
+                      <div className="absolute right-0 mt-2 w-56 bg-[#1C1C1C] border border-gray-800 rounded-xl shadow-xl overflow-hidden z-50">
+                        <div className="px-4 py-3 border-b border-gray-800">
+                          <p className={`font-semibold ${
+                            user.is_boz_plus 
+                              ? 'bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent' 
+                              : 'text-white'
+                          }`}>
+                            {user.full_name}
+                          </p>
+                          <p className="text-sm text-gray-400">{user.email}</p>
+                        </div>
 
                       <div className="py-2">
                         <Link
