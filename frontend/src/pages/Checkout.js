@@ -342,28 +342,47 @@ const Checkout = () => {
 
                 <div className="space-y-3 border-t border-gray-800 pt-4">
                   <div className="flex justify-between text-gray-400">
-                    <span></span>
+                    <span>Ara Toplam</span>
                     <span className="text-white font-semibold">{total.toFixed(2)} ₺</span>
                   </div>
+                  
                   <div className="flex justify-between text-gray-400">
-                    <span></span>
-                    <span className="text-green-400 font-semibold"></span>
+                    <span>Kargo</span>
+                    {isBozPlus ? (
+                      <div className="flex items-center gap-1">
+                        <Crown className="w-3 h-3 text-purple-400" />
+                        <span className="text-purple-400 font-semibold">Bedava</span>
+                      </div>
+                    ) : shippingCost === 0 ? (
+                      <span className="text-green-400 font-semibold">Bedava</span>
+                    ) : (
+                      <span className="text-white font-semibold">{shippingCost.toFixed(2)} ₺</span>
+                    )}
                   </div>
+                  
+                  {!isMinimumMet && !isBozPlus && (
+                    <div className="p-2 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+                      <p className="text-xs text-orange-400">
+                        {(MINIMUM_ORDER - total).toFixed(2)} ₺ daha alışveriş yapın, kargo bedava!
+                      </p>
+                    </div>
+                  )}
+                  
                   <div className="border-t border-gray-800 pt-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-semibold text-white"></span>
+                      <span className="text-lg font-semibold text-white">Toplam</span>
                       <span className="text-2xl font-bold bg-gradient-to-r from-[#C9A962] to-[#D4AF37] bg-clip-text text-transparent">
-                        {total.toFixed(2)} ₺
+                        {finalTotal.toFixed(2)} ₺
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {user?.is_boz_plus && (
+                {isBozPlus && (
                   <div className="mt-4 p-3 bg-gradient-to-r from-purple-900/20 to-violet-900/20 border border-purple-500/30 rounded-lg">
                     <div className="flex items-center gap-2">
                       <Crown className="w-4 h-4 text-purple-400" />
-                      <span className="text-xs font-semibold text-purple-300">BOZ PLUS Üye Fiyatı</span>
+                      <span className="text-xs font-semibold text-purple-300">BOZ PLUS - Kargo Bedava! 🎉</span>
                     </div>
                   </div>
                 )}
