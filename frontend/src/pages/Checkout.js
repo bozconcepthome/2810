@@ -49,7 +49,7 @@ const Checkout = () => {
     if (!shippingInfo.phone.trim()) newErrors.phone = 'Telefon zorunludur';
     if (!shippingInfo.il) newErrors.il = 'İl seçimi zorunludur';
     if (!shippingInfo.ilce) newErrors.ilce = 'İlçe seçimi zorunludur';
-    if (!shippingInfo.mahalle) newErrors.mahalle = 'Mahalle seçimi zorunludur';
+    if (!shippingInfo.mahalle.trim()) newErrors.mahalle = 'Mahalle zorunludur';
     if (!shippingInfo.address.trim()) newErrors.address = 'Açık adres zorunludur';
 
     setErrors(newErrors);
