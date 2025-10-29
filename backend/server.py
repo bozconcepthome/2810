@@ -345,6 +345,72 @@ async def update_password(
     
     return {"message": "Şifre başarıyla güncellendi"}
 
+@api_router.post("/auth/forgot-password")
+async def forgot_password(email: str = Body(..., embed=True)):
+    """Send password reset email"""
+    # Check if user exists
+    user = await users_collection.find_one({"email": email})
+    if not user:
+        # Don't reveal if email exists or not for security
+        return {"message": "Eğer e-posta kayıtlıysa, sıfırlama bağlantısı gönderildi"}
+    
+    # Generate reset token (valid for 1 hour)
+    import secrets
+    import datetime
+    
+    reset_token = secrets.token_urlsafe(32)
+    expires_at = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    
+    # Save reset token to database
+    await users_collection.update_one(
+        {"id": user["id"]},
+        {"$set": {
+            "reset_token": reset_token,
+            "reset_token_expires": expires_at
+        }}
+    )
+    
+    # In production, send email here
+    # For now, just return success (token will be logged in console for testing)
+    print(f"Reset token for {email}: {reset_token}")
+    print(f"Reset URL: /reset-password?token={reset_token}")
+    
+    return {"message": "Şifre sıfırlama bağlantısı e-postanıza gönderildi"}
+
+@api_router.post("/auth/reset-password")
+async def reset_password(
+    token: str = Body(..., embed=True),
+    new_password: str = Body(..., embed=True)
+):
+    """Reset password using token"""
+    import datetime
+    
+    # Find user with valid token
+    user = await users_collection.find_one({
+        "reset_token": token,
+        "reset_token_expires": {"$gt": datetime.datetime.utcnow()}
+    })
+    
+    if not user:
+        raise HTTPException(status_code=400, detail="Geçersiz veya süresi dolmuş token")
+    
+    # Hash new password
+    hashed_password = pwd_context.hash(new_password)
+    
+    # Update password and clear reset token
+    await users_collection.update_one(
+        {"id": user["id"]},
+        {"$set": {
+            "hashed_password": hashed_password
+        },
+        "$unset": {
+            "reset_token": "",
+            "reset_token_expires": ""
+        }}
+    )
+    
+    return {"message": "Şifre başarıyla sıfırlandı"}
+
 # ============ PRODUCT ROUTES ============
 
 @api_router.get("/products", response_model=List[Product])
