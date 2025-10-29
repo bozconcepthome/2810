@@ -169,6 +169,15 @@ const Navbar = () => {
                         </Link>
 
                         <Link
+                          to="/account"
+                          onClick={() => setAccountMenuOpen(false)}
+                          className="flex items-center gap-3 px-4 py-2 text-white hover:bg-gray-800 transition-colors"
+                        >
+                          <User className="w-4 h-4" />
+                          <span>Hesabım</span>
+                        </Link>
+
+                        <Link
                           to="/boz-plus"
                           onClick={() => setAccountMenuOpen(false)}
                           className="flex items-center gap-3 px-4 py-2 text-white hover:bg-gray-800 transition-colors"
