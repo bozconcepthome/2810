@@ -54,6 +54,99 @@ const Home = () => {
     }
   };
 
+  const motivationalMessages = [
+    "Harika seçim! 🌟",
+    "Tarzınız mükemmel! ✨",
+    "Eviniz muhteşem olacak! 🏠",
+    "Güzel zevkler! 🎨",
+    "Şıklık tercihiniz süper! 💎",
+    "İyi bir seçim yaptınız! 👌",
+    "Eviniz için en iyisini seçtiniz! 🌈",
+    "Mükemmel bir ürün! ⭐",
+    "Harika bir tercih! 🎉",
+    "Stil sahibisiniz! 👑"
+  ];
+
+  const triggerConfetti = () => {
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { 
+      startVelocity: 30, 
+      spread: 360, 
+      ticks: 60, 
+      zIndex: 9999,
+      colors: ['#C9A962', '#E6C888', '#A78D4E', '#D4AF37', '#FFD700']
+    };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      
+      confetti(Object.assign({}, defaults, { 
+        particleCount, 
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+      }));
+      confetti(Object.assign({}, defaults, { 
+        particleCount, 
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+      }));
+    }, 250);
+  };
+
+  const handleAddToCart = async (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!token) {
+      toast.info('Sepete eklemek için giriş yapmalısınız', {
+        duration: 3000,
+        style: {
+          background: '#1C1C1C',
+          color: '#fff',
+          border: '1px solid #C9A962'
+        }
+      });
+      navigate('/auth');
+      return;
+    }
+
+    setAddingToCart(prev => ({ ...prev, [product.id]: true }));
+
+    try {
+      await addToCart(product.id, 1);
+      
+      // Trigger confetti
+      triggerConfetti();
+
+      // Random motivational message
+      const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+      
+      toast.success(randomMessage, {
+        duration: 3000,
+        style: {
+          background: 'linear-gradient(135deg, #C9A962 0%, #E6C888 100%)',
+          color: '#000',
+          fontWeight: 'bold',
+          border: 'none'
+        }
+      });
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+      toast.error('Sepete eklenirken hata oluştu');
+    } finally {
+      setAddingToCart(prev => ({ ...prev, [product.id]: false }));
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black" data-testid="home-page">
       {/* Hero Video Section */}
