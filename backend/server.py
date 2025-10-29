@@ -295,8 +295,8 @@ async def get_me(current_user: User = Depends(get_current_user)):
         "id": current_user.id,
         "email": current_user.email,
         "full_name": current_user.full_name,
-        "is_boz_plus": current_user.get("is_boz_plus", False),
-        "boz_plus_expires_at": current_user.get("boz_plus_expires_at")
+        "is_boz_plus": getattr(current_user, "is_boz_plus", False),
+        "boz_plus_expires_at": getattr(current_user, "boz_plus_expires_at", None)
     }
 
 @api_router.put("/auth/update-email")
