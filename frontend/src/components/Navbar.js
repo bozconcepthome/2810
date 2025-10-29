@@ -266,6 +266,18 @@ const Navbar = () => {
             >
               Ürünler
             </Link>
+            
+            {/* BOZ PLUS Link - Mobile */}
+            <Link
+              to="/boz-plus"
+              data-testid="mobile-nav-boz-plus"
+              className="flex items-center gap-2 bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#C084FC] bg-clip-text text-transparent font-semibold hover:from-[#A855F7] hover:to-[#8B5CF6] transition"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Crown className="w-4 h-4 text-purple-400" />
+              BOZ PLUS
+            </Link>
+            
             <Link
               to="/cart"
               data-testid="mobile-nav-cart"
