@@ -250,8 +250,22 @@ const Home = () => {
       </section>
 
       {/* Brand Story */}
-      <section className="py-24 bg-[#0A0A0A] text-white border-t border-gray-900" data-testid="brand-story-section">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-24 bg-[#0A0A0A] text-white border-t border-gray-900 overflow-hidden" data-testid="brand-story-section">
+        {/* Transparent Background Text */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+          <h2 
+            className="text-[12rem] sm:text-[16rem] lg:text-[20rem] font-bold text-[#C9A962] whitespace-nowrap leading-none"
+            style={{ 
+              fontFamily: 'Playfair Display, serif',
+              opacity: '0.03',
+              transform: 'translateY(-10%)'
+            }}
+          >
+            Boz Concept Home
+          </h2>
+        </div>
+        
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#C9A962]/10 rounded-full mb-6">
               <Sparkles className="w-4 h-4 text-[#C9A962]" />
