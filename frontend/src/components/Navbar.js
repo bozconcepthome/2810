@@ -210,7 +210,18 @@ const Navbar = () => {
                       </div>
                     </div>
                   )}
-                </div>
+                  </div>
+                ) : (
+                  <Link to="/auth" data-testid="nav-login">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-white hover:bg-[#C9A962]/20 hover:text-[#C9A962]"
+                    >
+                      Giriş
+                    </Button>
+                  </Link>
+                )}
               </div>
             ) : (
               <Link to="/auth" data-testid="nav-login">
