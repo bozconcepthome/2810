@@ -162,10 +162,10 @@ const BozPlus = () => {
               size="lg"
               className="bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#7C3AED] hover:from-[#7C3AED] hover:to-[#8B5CF6] text-white font-extrabold py-6 px-12 text-lg shadow-[0_0_40px_rgba(139,92,246,0.6)] hover:shadow-[0_0_60px_rgba(139,92,246,0.9)] transition-all duration-300 border border-purple-400/30"
             >
-              {requesting ? 'İşleniyor...' : '✨ BOZ PLUS Satın Al ✨'}
+              {requesting ? 'İşleniyor...' : token ? '✨ BOZ PLUS Satın Al ✨' : '🔐 Giriş Yap ve Satın Al'}
             </Button>
             <p className="text-sm text-purple-300 mt-4">
-              * Admin onayı sonrası üyeliğiniz aktif olacaktır
+              {token ? '* Admin onayı sonrası üyeliğiniz aktif olacaktır' : '* Satın almak için önce giriş yapmanız gerekmektedir'}
             </p>
           </div>
         )}
