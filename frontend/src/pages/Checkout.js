@@ -314,10 +314,10 @@ const Checkout = () => {
 
                     <Button
                       onClick={handlePlaceOrder}
-                      disabled={loading || !isMinimumMet}
+                      disabled={loading}
                       className="w-full bg-gradient-to-r from-[#C9A962] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#C9A962] text-black font-bold py-4 text-lg rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {loading ? 'İşleniyor...' : !isMinimumMet ? 'Minimum Tutar: 500 TL' : 'Siparişi Onayla'}
+                      {loading ? 'İşleniyor...' : 'Siparişi Onayla'}
                     </Button>
                   </div>
                 </div>
