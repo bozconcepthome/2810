@@ -95,11 +95,12 @@ const AdminPreorders = () => {
       description: '',
       estimated_price: '',
       estimated_release_date: '',
-      image_urls: [''],
-      category: '',
+      image_urls: [],
+      category: categories[0] || '',
       discount_percentage: 0,
       is_active: true
     });
+    setSelectedCategoryIndex(0);
     setEditingPreorder(null);
   };
 
@@ -114,13 +115,92 @@ const AdminPreorders = () => {
       description: preorder.description || '',
       estimated_price: preorder.estimated_price,
       estimated_release_date: preorder.estimated_release_date || '',
-      image_urls: preorder.image_urls.length > 0 ? preorder.image_urls : [''],
+      image_urls: preorder.image_urls || [],
       category: preorder.category || '',
       discount_percentage: preorder.discount_percentage || 0,
       is_active: preorder.is_active
     });
+    
+    const catIndex = categories.findIndex(c => c === preorder.category);
+    setSelectedCategoryIndex(catIndex !== -1 ? catIndex : 0);
+    
     setEditingPreorder(preorder);
     setShowModal(true);
+  };
+
+  const handleCategoryUp = () => {
+    if (selectedCategoryIndex > 0) {
+      const newIndex = selectedCategoryIndex - 1;
+      setSelectedCategoryIndex(newIndex);
+      setFormData(prev => ({ ...prev, category: categories[newIndex] }));
+    }
+  };
+
+  const handleCategoryDown = () => {
+    if (selectedCategoryIndex < categories.length - 1) {
+      const newIndex = selectedCategoryIndex + 1;
+      setSelectedCategoryIndex(newIndex);
+      setFormData(prev => ({ ...prev, category: categories[newIndex] }));
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    // Validate
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) {
+        toast.error(`${file.name} bir resim dosyası değil`);
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error(`${file.name} 5MB'dan büyük`);
+        return;
+      }
+    }
+
+    setUploadingImages(true);
+    const uploadedUrls = [];
+
+    try {
+      for (const file of files) {
+        const formDataUpload = new FormData();
+        formDataUpload.append('file', file);
+
+        const response = await axios.post(
+          `${API_URL}/api/admin/upload-image`,
+          formDataUpload,
+          {
+            headers: {
+              ...getAuthHeader(),
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+
+        uploadedUrls.push(response.data.url);
+      }
+
+      setFormData(prev => ({
+        ...prev,
+        image_urls: [...prev.image_urls, ...uploadedUrls]
+      }));
+      
+      toast.success(`✅ ${files.length} görsel yüklendi`);
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Görsel yükleme başarısız');
+    } finally {
+      setUploadingImages(false);
+    }
+  };
+
+  const removeImage = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      image_urls: prev.image_urls.filter((_, i) => i !== index)
+    }));
   };
 
   const handleSubmit = async () => {
