@@ -438,7 +438,7 @@ async def reset_password(
     import datetime
     
     # Find user with valid token
-    user = await users_collection.find_one({
+    user = await db.users.find_one({
         "reset_token": token,
         "reset_token_expires": {"$gt": datetime.datetime.utcnow()}
     })
@@ -450,7 +450,7 @@ async def reset_password(
     hashed_password = pwd_context.hash(new_password)
     
     # Update password and clear reset token
-    await users_collection.update_one(
+    await db.users.update_one(
         {"id": user["id"]},
         {"$set": {
             "hashed_password": hashed_password
