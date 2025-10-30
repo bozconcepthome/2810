@@ -23,6 +23,7 @@ const AdminLayout = () => {
   const menuItems = [
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/admin/products', icon: Package, label: 'Ürünler' },
+    { path: '/admin/preorders', icon: Sparkles, label: 'Ön Siparişler' },
     { path: '/admin/categories', icon: Layers, label: 'Kategoriler' },
     { path: '/admin/orders', icon: ShoppingCart, label: 'Siparişler' },
     { path: '/admin/users', icon: Users, label: 'Kullanıcılar' },
