@@ -363,12 +363,14 @@ frontend:
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 5
+  test_sequence: 6
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Cart API System"
+    - "Admin Dashboard Stats API"
+    - "Admin Cart Analytics API"
+    - "Admin Users Detailed API"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
