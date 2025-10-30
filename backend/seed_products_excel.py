@@ -11,7 +11,7 @@ MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
 
 async def seed_all_products():
     client = AsyncIOMotorClient(MONGO_URL)
-    db = client.boz_concept_db
+    db = client.test_database  # Use correct database name from .env
     
     # Load products from JSON
     json_path = os.path.join(os.path.dirname(__file__), 'products_data.json')
