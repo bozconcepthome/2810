@@ -10,15 +10,18 @@ import { toast } from 'sonner';
 
 const AdminPreorders = () => {
   const [preorders, setPreorders] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingPreorder, setEditingPreorder] = useState(null);
+  const [uploadingImages, setUploadingImages] = useState(false);
   const [formData, setFormData] = useState({
     product_name: '',
     description: '',
     estimated_price: '',
     estimated_release_date: '',
-    image_urls: [''],
+    image_urls: [],
     category: '',
     discount_percentage: 0,
     is_active: true
@@ -28,8 +31,21 @@ const AdminPreorders = () => {
   const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
   useEffect(() => {
+    fetchCategories();
     fetchPreorders();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/admin/categories`, {
+        headers: getAuthHeader()
+      });
+      const cats = response.data.map(c => c.name);
+      setCategories(cats);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   const fetchPreorders = async () => {
     try {
