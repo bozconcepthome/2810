@@ -516,6 +516,7 @@ const Products = () => {
               <p className="text-gray-500 text-lg">Arama kriterlerinize uygun ürün bulunamadı</p>
             </div>
           </div>
+        )
         )}
       </div>
     </div>
