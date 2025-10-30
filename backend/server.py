@@ -623,7 +623,7 @@ async def admin_upload_image(
         shutil.copyfileobj(file.file, buffer)
     
     # Return public URL
-    backend_url = os.environ.get('BACKEND_URL', 'https://boz-cart-system.preview.emergentagent.com')
+    backend_url = os.environ.get('BACKEND_URL', 'https://luxury-shop-update.preview.emergentagent.com')
     image_url = f"{backend_url}/uploads/{unique_filename}"
     
     return {"image_url": image_url}

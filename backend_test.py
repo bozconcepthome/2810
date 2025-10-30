@@ -12,7 +12,7 @@ from PIL import Image
 import tempfile
 
 # Configuration
-BACKEND_URL = "https://boz-cart-system.preview.emergentagent.com/api"
+BACKEND_URL = "https://luxury-shop-update.preview.emergentagent.com/api"
 ADMIN_EMAIL = "admin@bozconcept.com"
 ADMIN_PASSWORD = "admin123"
 

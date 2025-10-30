@@ -32,7 +32,7 @@ Boz Concept Home, modern ve minimalist ev dekorasyon ürünleri satan premium bi
 - Havai fişek animasyonlu sepet deneyimi
 sunmaktadır.
 
-**Canlı URL:** https://boz-cart-system.preview.emergentagent.com
+**Canlı URL:** https://luxury-shop-update.preview.emergentagent.com
 
 ---
 
@@ -692,7 +692,7 @@ flex flex-col lg:flex-row                  /* Dikey -> Yatay */
 
 ### Base URL
 ```
-Production: https://boz-cart-system.preview.emergentagent.com/api
+Production: https://luxury-shop-update.preview.emergentagent.com/api
 Development: http://localhost:8001/api
 ```
 
@@ -1129,7 +1129,7 @@ Response: 200 OK
 
 ### Production Environment
 ```
-URL: https://boz-cart-system.preview.emergentagent.com
+URL: https://luxury-shop-update.preview.emergentagent.com
 Platform: Kubernetes
 Frontend Port: 3000
 Backend Port: 8001
@@ -1144,12 +1144,12 @@ SSL: Enabled
 MONGO_URL=mongodb://...
 DB_NAME=boz_concept_home
 JWT_SECRET=your-secret-key
-CORS_ORIGINS=https://boz-cart-system.preview.emergentagent.com
+CORS_ORIGINS=https://luxury-shop-update.preview.emergentagent.com
 ```
 
 **Frontend (.env):**
 ```
-REACT_APP_BACKEND_URL=https://boz-cart-system.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://luxury-shop-update.preview.emergentagent.com
 ```
 
 ---
@@ -1190,7 +1190,7 @@ REACT_APP_BACKEND_URL=https://boz-cart-system.preview.emergentagent.com
 **Destek:**
 - Dokümantasyon: Bu PRD dosyası
 - Kod Repository: /app/ dizini
-- Canlı Site: https://boz-cart-system.preview.emergentagent.com
+- Canlı Site: https://luxury-shop-update.preview.emergentagent.com
 
 ---
 
