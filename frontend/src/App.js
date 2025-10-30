@@ -156,6 +156,7 @@ function App() {
                 <Route path="products" element={<AdminProducts />} />
                 <Route path="products/new" element={<AdminProductForm />} />
                 <Route path="products/edit/:id" element={<AdminProductForm />} />
+                <Route path="preorders" element={<AdminPreorders />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="users" element={<AdminUsersEnhanced />} />
                 <Route path="categories" element={<AdminCategoriesNew />} />
