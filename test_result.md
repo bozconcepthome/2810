@@ -290,6 +290,51 @@ backend_old:
         agent: "testing"
         comment: "✅ TESTED: Cart API system working perfectly with 100% pass rate (13/13 tests passed). All endpoints tested successfully: ✅ POST /api/cart/add adds items and returns cart_count ✅ GET /api/cart returns cart array with product details (product_id, product_name, price, quantity, subtotal) and total ✅ PUT /api/cart/update successfully updates item quantities ✅ DELETE /api/cart/remove/{product_id} removes items and returns updated cart_count ✅ DELETE /api/cart/clear empties cart completely ✅ Authentication working properly ✅ Product price calculation includes discounted_price and BOZ PLUS pricing ✅ Cart persistence verified across operations. Fixed duplicate route definitions during testing. All cart functionality working as specified."
 
+  - task: "Admin Dashboard Stats API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "New comprehensive dashboard stats endpoint implemented: GET /api/admin/dashboard/stats. Returns overview (total_users, total_products, total_orders, total_categories, total_sales, avg_order_value), recent_activity (sales_last_7_days, orders_last_7_days), users (boz_plus_members, conversion_rate, users_with_orders), inventory (out_of_stock, low_stock, in_stock), cart_analytics (users_with_items, total_items_in_carts, avg_cart_size), top_products (top 5 selling products with revenue). All protected with admin middleware."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Admin dashboard stats API working perfectly with 100% pass rate (16/16 tests passed). All required fields verified: ✅ overview section with 6 fields (total_users: 7, total_products: 76, total_orders: 0, total_categories: 18, total_sales: 0, avg_order_value: 0) ✅ recent_activity section with 2 fields (sales_last_7_days: 0, orders_last_7_days: 0) ✅ users section with 3 fields (boz_plus_members: 0, conversion_rate: 0.0, users_with_orders: 0) ✅ inventory section with 3 fields (out_of_stock: 0, low_stock: 0, in_stock: 76) ✅ cart_analytics section with 3 fields (users_with_items: 2, total_items_in_carts: 3, avg_cart_size: 1.5) ✅ top_products array with proper structure. Fixed route registration issue (routes were defined after app.include_router). All data properly calculated and enriched. Test script: /app/test_new_admin_dashboard.py"
+
+  - task: "Admin Cart Analytics API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Cart analytics endpoint implemented: GET /api/admin/cart-analytics. Returns total_users_with_cart, total_products_in_carts, products (top 20 products in carts with cart_count and user details), user_carts (all users with cart items). Provides detailed insights into which products are in how many carts. All protected with admin middleware."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Cart analytics API working perfectly. All required fields verified: ✅ total_users_with_cart: 2 ✅ total_products_in_carts: 3 ✅ products array with proper structure (product_id, product_name, price, image_url, cart_count, users) ✅ user_carts array with proper structure (user_id, email, full_name, cart_items, cart). All data properly enriched with product details. Admin authentication properly enforced. Test script: /app/test_new_admin_dashboard.py"
+
+  - task: "Admin Users Detailed API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Detailed users endpoint implemented: GET /api/admin/users/detailed. Returns all user information INCLUDING hashed_password and phone_number (unlike /api/admin/users which excludes passwords). Also includes order_count, total_spent, cart_items_count, cart_details (enriched with product info), last_order_date. Users sorted by total_spent descending. All protected with admin middleware."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Users detailed API working perfectly. Retrieved 7 users with all required fields: ✅ Basic fields (id, email, full_name, phone_number) ✅ Sensitive field (hashed_password) present as required ✅ Order statistics (order_count, total_spent, last_order_date) ✅ Cart information (cart_items_count, cart_details with enriched product info) ✅ cart_details array properly structured with product_id, product_name, price, quantity, image_url. Sample user verified: email: splendor35@outlook.com, phone: 5323696386, cart_items: 2. All data properly calculated and enriched. Admin authentication properly enforced. Test script: /app/test_new_admin_dashboard.py"
+
 frontend:
   - task: "Admin Panel Frontend"
     implemented: true
