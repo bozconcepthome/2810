@@ -365,7 +365,7 @@ const Products = () => {
 
                     {/* BOZ PLUS Price */}
                     {product.boz_plus_price && (
-                      <div className="mt-2 bg-purple-900/20 border border-purple-500 rounded-lg px-2 py-1">
+                      <div className="mt-3 bg-purple-900/20 border border-purple-500 rounded-lg px-3 py-2">
                         <div className="flex items-center gap-2">
                           <Crown className="w-3.5 h-3.5 text-purple-400" />
                           <span className="text-sm font-bold text-purple-400">{product.boz_plus_price} ₺</span>
