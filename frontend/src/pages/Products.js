@@ -312,6 +312,101 @@ const Products = () => {
                 data-testid={`product-card-${product.id}`}
                 className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300 hover:shadow-2xl hover:shadow-[#C9A962]/30 hover:scale-105 hover:-translate-y-2"
               >
+                {/* Product Image */}
+                <Link to={`/products/${product.id}`} className="block">
+                  <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 to-black">
+                    {product.image_urls && product.image_urls.length > 0 ? (
+                      <img
+                        src={product.image_urls[0]}
+                        alt={product.product_name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Package className="w-16 h-16 text-gray-700" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* BOZ PLUS Badge */}
+                    {product.boz_plus_price && (
+                      <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 bg-purple-600 rounded-full border border-purple-400">
+                        <Crown className="w-3.5 h-3.5 text-purple-200 fill-purple-200" />
+                        <span className="text-xs font-bold text-white">PLUS</span>
+                      </div>
+                    )}
+                  </div>
+                </Link>
+
+                {/* Product Info */}
+                <div className="p-4">
+                  <Link to={`/products/${product.id}`}>
+                    <h3 className="text-white font-semibold text-base mb-2 line-clamp-2 group-hover:text-[#C9A962] transition-colors">
+                      {product.product_name}
+                    </h3>
+                  </Link>
+                  
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+                    <Package className="w-4 h-4" />
+                    <span>{product.category}</span>
+                  </div>
+
+                  {/* Pricing */}
+                  <div className="mb-3">
+                    <div className="flex items-center gap-2">
+                      {product.discounted_price ? (
+                        <>
+                          <span className="text-xl font-bold text-[#C9A962]">{product.discounted_price} ₺</span>
+                          <span className="text-sm text-gray-500 line-through">{product.price} ₺</span>
+                        </>
+                      ) : (
+                        <span className="text-xl font-bold text-[#C9A962]">{product.price} ₺</span>
+                      )}
+                    </div>
+
+                    {/* BOZ PLUS Price */}
+                    {product.boz_plus_price && (
+                      <div className="mt-2 bg-purple-900/20 border border-purple-500 rounded-lg px-2 py-1">
+                        <div className="flex items-center gap-2">
+                          <Crown className="w-3.5 h-3.5 text-purple-400" />
+                          <span className="text-sm font-bold text-purple-400">{product.boz_plus_price} ₺</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Add to Cart Button */}
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddToCart(e, product);
+                    }}
+                    disabled={addingToCart[product.id]}
+                    className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold py-2.5 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-[#C9A962]/50 active:scale-95 flex items-center justify-center gap-2 group"
+                  >
+                    <ShoppingCart className="w-4 h-4 group-hover:animate-bounce" />
+                    <span className="group-hover:scale-105 transition-transform duration-200">
+                      {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-400 mb-2">Ürün Bulunamadı</h3>
+            <p className="text-gray-500">Arama kriterlerinize uygun ürün bulunamadı</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Products;
               <div className="flex items-center justify-center mb-8">
                 <div className="relative inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-orange-600/20 via-red-600/20 to-orange-600/20 rounded-full border-2 border-orange-500/50 shadow-[0_0_30px_rgba(249,115,22,0.3)]">
                   <Flame className="w-6 h-6 text-orange-500 animate-pulse" />
