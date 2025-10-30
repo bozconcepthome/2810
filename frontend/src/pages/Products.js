@@ -89,9 +89,6 @@ const Products = () => {
 
     setFilteredProducts(filtered);
   };
-      setLoading(false);
-    }
-  };
 
   const toggleCategory = (category) => {
     trackCategoryClick(category);
