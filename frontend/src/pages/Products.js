@@ -230,77 +230,81 @@ const Products = () => {
 
   return (
     <div className="min-h-screen pt-20 pb-20 bg-black" data-testid="products-page">
-      {/* Hero Section with Search */}
+      {/* Hero Section */}
       <div className="relative bg-gradient-to-b from-black via-gray-900 to-black py-16 border-b border-gray-800">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(201,169,98,0.05),transparent_50%)]" />
         <div className="max-w-[1800px] mx-auto px-8 lg:px-20 relative z-10">
           <div className="text-center mb-10">
             <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-[#C9A962] via-[#E6C888] to-[#C9A962] bg-clip-text text-transparent animate-gradient">
-              Lüks Koleksiyonumuz
+              {viewMode === 'categories' ? 'Kategoriler' : selectedCategory}
             </h1>
-            <p className="text-gray-400 text-lg">Eviniz için en şık ve kaliteli ürünler</p>
+            <p className="text-gray-400 text-lg">
+              {viewMode === 'categories' 
+                ? 'İstediğiniz kategoriyi seçin ve ürünleri keşfedin' 
+                : `${filteredProducts.length} adet muhteşem ürün`}
+            </p>
           </div>
 
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto mb-10">
-            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 group-focus-within:text-[#C9A962] transition-colors" />
-              <input
-                type="text"
-                placeholder="Ürün ara..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-14 pr-6 py-5 bg-[#1C1C1C]/80 backdrop-blur-sm border-2 border-gray-800 rounded-2xl text-white text-lg placeholder-gray-500 focus:outline-none focus:border-[#C9A962] transition-all duration-300 focus:shadow-xl focus:shadow-[#C9A962]/20"
-              />
-            </div>
-          </div>
-
-          {/* Category Pills */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {categories.map((cat) => (
+          {/* Back Button (when in products view) */}
+          {viewMode === 'products' && (
+            <div className="flex justify-center mb-8">
               <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  selectedCategory === cat
-                    ? 'bg-gradient-to-r from-[#C9A962] to-[#E6C888] text-black shadow-lg shadow-[#C9A962]/50 scale-105'
-                    : 'bg-[#1C1C1C] text-gray-300 border border-gray-700 hover:border-[#C9A962] hover:text-white hover:scale-105'
+                onClick={handleBackToCategories}
+                className="px-6 py-3 bg-[#1C1C1C] border border-gray-700 rounded-xl text-white hover:border-[#C9A962] transition-all duration-300 flex items-center gap-2 group"
+              >
+                <ChevronRight className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" />
+                <span>Kategorilere Dön</span>
+              </button>
+            </div>
+          )}
+
+          {/* Search Bar (only in products view) */}
+          {viewMode === 'products' && (
+            <div className="max-w-2xl mx-auto mb-8">
+              <div className="relative group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 group-focus-within:text-[#C9A962] transition-colors" />
+                <input
+                  type="text"
+                  placeholder="Ürün ara..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-14 pr-6 py-5 bg-[#1C1C1C]/80 backdrop-blur-sm border-2 border-gray-800 rounded-2xl text-white text-lg placeholder-gray-500 focus:outline-none focus:border-[#C9A962] transition-all duration-300 focus:shadow-xl focus:shadow-[#C9A962]/20"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Sort and Filter Controls (only in products view) */}
+          {viewMode === 'products' && (
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-5 py-3 bg-[#1C1C1C]/80 backdrop-blur-sm border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#C9A962] transition-colors cursor-pointer hover:border-[#C9A962]/50"
+              >
+                <option value="default">✨ Varsayılan Sıralama</option>
+                <option value="price-asc">💰 Fiyat: Düşük → Yüksek</option>
+                <option value="price-desc">💎 Fiyat: Yüksek → Düşük</option>
+                <option value="name-asc">🔤 İsim: A → Z</option>
+                <option value="name-desc">🔤 İsim: Z → A</option>
+              </select>
+
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`px-5 py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
+                  showFilters
+                    ? 'bg-gradient-to-r from-[#C9A962] to-[#E6C888] text-black'
+                    : 'bg-[#1C1C1C]/80 backdrop-blur-sm text-white border border-gray-700 hover:border-[#C9A962]'
                 }`}
               >
-                {cat}
+                <SlidersHorizontal className="w-5 h-5" />
+                Filtrele
               </button>
-            ))}
-          </div>
-
-          {/* Sort and Filter Controls */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-5 py-3 bg-[#1C1C1C]/80 backdrop-blur-sm border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#C9A962] transition-colors cursor-pointer hover:border-[#C9A962]/50"
-            >
-              <option value="default">✨ Varsayılan Sıralama</option>
-              <option value="price-asc">💰 Fiyat: Düşük → Yüksek</option>
-              <option value="price-desc">💎 Fiyat: Yüksek → Düşük</option>
-              <option value="name-asc">🔤 İsim: A → Z</option>
-              <option value="name-desc">🔤 İsim: Z → A</option>
-            </select>
-
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`px-5 py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
-                showFilters
-                  ? 'bg-gradient-to-r from-[#C9A962] to-[#E6C888] text-black'
-                  : 'bg-[#1C1C1C]/80 backdrop-blur-sm text-white border border-gray-700 hover:border-[#C9A962]'
-              }`}
-            >
-              <SlidersHorizontal className="w-5 h-5" />
-              Filtrele
-            </button>
-          </div>
+            </div>
+          )}
 
           {/* Advanced Filters Panel */}
-          {showFilters && (
+          {viewMode === 'products' && showFilters && (
             <div className="mt-8 p-8 bg-[#1C1C1C]/80 backdrop-blur-sm border border-gray-700 rounded-2xl max-w-2xl mx-auto animate-slideDown">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-white font-semibold text-xl flex items-center gap-2">
@@ -335,20 +339,67 @@ const Products = () => {
 
       {/* Main Content */}
       <div className="max-w-[1800px] mx-auto px-8 lg:px-20 mt-16">
-        {/* Results Header */}
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-bold text-white mb-3">
-            {selectedCategory === 'Tümü' ? '✨ Tüm Ürünlerimiz' : `${selectedCategory}`}
-          </h2>
-          <p className="text-gray-400 text-lg">
-            <span className="text-[#C9A962] font-semibold">{filteredProducts.length}</span> adet muhteşem ürün
-          </p>
-        </div>
+        {viewMode === 'categories' ? (
+          /* CATEGORIES GRID */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {categoryData.map((category, index) => (
+              <div
+                key={category.name}
+                onClick={() => handleCategoryClick(category.name)}
+                className="group relative cursor-pointer"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                {/* Glow Effect */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#C9A962] via-[#E6C888] to-[#C9A962] rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500 group-hover:animate-pulse" />
+                
+                {/* Category Card */}
+                <div className="relative bg-gradient-to-br from-[#1C1C1C] to-black rounded-3xl overflow-hidden border border-gray-800 group-hover:border-[#C9A962] transition-all duration-500 group-hover:scale-105 group-hover:-translate-y-3 shadow-2xl group-hover:shadow-[#C9A962]/30 h-[400px]">
+                  {/* Category Image */}
+                  <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900">
+                    {category.previewImage ? (
+                      <img
+                        src={category.previewImage}
+                        alt={category.name}
+                        className="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-2 transition-all duration-700"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Package className="w-20 h-20 text-gray-700" />
+                      </div>
+                    )}
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+                    
+                    {/* Product Count Badge */}
+                    <div className="absolute top-4 right-4 px-4 py-2 bg-[#C9A962]/90 backdrop-blur-sm rounded-full border border-[#E6C888]">
+                      <span className="text-black font-bold">{category.productCount} Ürün</span>
+                    </div>
 
-        {/* Products Grid - LUXURY VERSION */}
-        {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
-            {filteredProducts.map((product, index) => (
+                    {/* View Products Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="bg-black/80 backdrop-blur-sm px-8 py-4 rounded-full border border-[#C9A962] text-[#C9A962] font-bold text-lg flex items-center gap-2">
+                        Ürünleri Gör
+                        <ChevronRight className="w-5 h-5" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Category Info */}
+                  <div className="p-6 flex flex-col justify-center items-center h-[136px]">
+                    <h3 className="text-white font-bold text-2xl text-center group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#C9A962] group-hover:to-[#E6C888] group-hover:bg-clip-text transition-all duration-300">
+                      {category.name}
+                    </h3>
+                    <p className="text-gray-400 text-sm mt-2">Kategoriye git</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          /* PRODUCTS GRID */
+          filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
+              {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
                 data-testid={`product-card-${product.id}`}
