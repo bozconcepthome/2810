@@ -348,6 +348,20 @@ async def update_password(
     
     return {"message": "Şifre başarıyla güncellendi"}
 
+@api_router.put("/auth/update-phone")
+async def update_phone(
+    phone_number: str = Body(..., embed=True),
+    current_user: User = Depends(get_current_user)
+):
+    """Update user phone number"""
+    # Update phone
+    await users_collection.update_one(
+        {"id": current_user.id},
+        {"$set": {"phone_number": phone_number}}
+    )
+    
+    return {"message": "Telefon numarası başarıyla güncellendi", "phone_number": phone_number}
+
 @api_router.post("/auth/forgot-password")
 async def forgot_password(email: str = Body(..., embed=True)):
     """Send password reset email"""
