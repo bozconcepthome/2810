@@ -219,7 +219,7 @@ const Home = () => {
               <Link
                 key={category}
                 to={`/products?category=${encodeURIComponent(category)}`}
-                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1C1C1C] to-[#0A0A0A] border border-gray-800 hover:border-[#C9A962] p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1C1C1C] to-[#0A0A0A] border border-gray-800 hover:border-[#C9A962] p-8 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-[#C9A962]/40 hover:-translate-y-2"
                 style={{
                   animationDelay: `${0.1 * index}s`
                 }}
