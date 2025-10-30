@@ -349,12 +349,12 @@ async def update_email(
         raise HTTPException(status_code=400, detail="Mevcut şifre yanlış")
     
     # Check if new email already exists
-    existing_user = await users_collection.find_one({"email": new_email})
+    existing_user = await db.users.find_one({"email": new_email})
     if existing_user and existing_user["id"] != current_user.id:
         raise HTTPException(status_code=400, detail="Bu e-posta adresi zaten kullanılıyor")
     
     # Update email
-    await users_collection.update_one(
+    await db.users.update_one(
         {"id": current_user.id},
         {"$set": {"email": new_email}}
     )
