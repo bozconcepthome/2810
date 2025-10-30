@@ -381,7 +381,7 @@ const Products = () => {
                       handleAddToCart(e, product);
                     }}
                     disabled={addingToCart[product.id]}
-                    className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold py-2.5 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-[#C9A962]/50 active:scale-95 flex items-center justify-center gap-2 group"
+                    className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold py-3 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-[#C9A962]/50 active:scale-95 flex items-center justify-center gap-2 group"
                   >
                     <ShoppingCart className="w-4 h-4 group-hover:animate-bounce" />
                     <span className="group-hover:scale-105 transition-transform duration-200">
