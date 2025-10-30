@@ -542,17 +542,39 @@ const AdminPreorders = () => {
 
               {/* Category & Release Date */}
               <div className="grid grid-cols-2 gap-4">
+                {/* Category - Up/Down Selector */}
                 <div>
                   <label className="block text-gray-300 text-sm font-semibold mb-2">
-                    Kategori
+                    Kategori (⬆️ ⬇️ ile seçin)
                   </label>
-                  <input
-                    type="text"
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    placeholder="Örn: Dresuar"
-                    className="w-full px-4 py-3 bg-black border border-gray-600 rounded-xl text-white focus:outline-none focus:border-purple-500 transition-colors"
-                  />
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-2 border-purple-500 rounded-xl">
+                      <p className="text-white font-bold text-center">
+                        {categories[selectedCategoryIndex] || 'Kategori yok'}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <button
+                        type="button"
+                        onClick={handleCategoryUp}
+                        disabled={selectedCategoryIndex === 0}
+                        className="p-2 bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 disabled:opacity-50 rounded-lg transition-colors"
+                      >
+                        <ChevronUp className="text-white" size={20} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleCategoryDown}
+                        disabled={selectedCategoryIndex === categories.length - 1}
+                        className="p-2 bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 disabled:opacity-50 rounded-lg transition-colors"
+                      >
+                        <ChevronDown className="text-white" size={20} />
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-gray-500 text-xs mt-1">
+                    {selectedCategoryIndex + 1} / {categories.length}
+                  </p>
                 </div>
 
                 <div>
@@ -569,42 +591,58 @@ const AdminPreorders = () => {
                 </div>
               </div>
 
-              {/* Image URLs */}
+              {/* Image Upload & Management */}
               <div>
-                <label className="block text-gray-300 text-sm font-semibold mb-2 flex items-center gap-2">
+                <label className="block text-gray-300 text-sm font-semibold mb-3 flex items-center gap-2">
                   <Upload size={16} className="text-purple-500" />
-                  Ürün Görselleri (URL)
+                  Ürün Görselleri
                 </label>
-                <div className="space-y-3">
-                  {formData.image_urls.map((url, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <input
-                        type="text"
-                        value={url}
-                        onChange={(e) => updateImageUrl(index, e.target.value)}
-                        placeholder="https://example.com/image.jpg"
-                        className="flex-1 px-4 py-3 bg-black border border-gray-600 rounded-xl text-white focus:outline-none focus:border-purple-500 transition-colors"
-                      />
-                      {formData.image_urls.length > 1 && (
+
+                {/* File Upload Button */}
+                <div className="mb-4">
+                  <label className="relative cursor-pointer">
+                    <div className="flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold rounded-xl transition-all duration-200 hover:scale-105">
+                      <Upload size={20} />
+                      {uploadingImages ? 'Yükleniyor...' : 'Bilgisayardan Görsel Seç'}
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      disabled={uploadingImages}
+                    />
+                  </label>
+                  <p className="text-gray-500 text-sm mt-2">
+                    Birden fazla resim seçebilirsiniz (Maks: 5MB/resim)
+                  </p>
+                </div>
+
+                {/* Uploaded Images Grid */}
+                {formData.image_urls.length > 0 && (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {formData.image_urls.map((url, index) => (
+                      <div key={index} className="relative group">
+                        <img
+                          src={url}
+                          alt={`Görsel ${index + 1}`}
+                          className="w-full h-32 object-cover rounded-lg border-2 border-gray-700 group-hover:border-purple-500 transition-colors"
+                        />
                         <button
                           type="button"
-                          onClick={() => removeImageUrl(index)}
-                          className="p-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500 rounded-lg transition-colors"
+                          onClick={() => removeImage(index)}
+                          className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 rounded-full transition-colors opacity-0 group-hover:opacity-100"
                         >
-                          <X size={18} className="text-red-500" />
+                          <X size={14} className="text-white" />
                         </button>
-                      )}
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={addImageUrl}
-                    className="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
-                  >
-                    <Plus size={18} />
-                    Görsel Ekle
-                  </button>
-                </div>
+                        <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/80 rounded text-white text-xs font-bold">
+                          #{index + 1}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Active Toggle */}
