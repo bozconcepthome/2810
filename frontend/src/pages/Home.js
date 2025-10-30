@@ -142,17 +142,27 @@ const Home = () => {
     <div className="min-h-screen bg-black" data-testid="home-page">
       {/* Hero Video Section */}
       <section className="relative h-screen overflow-hidden" data-testid="hero-section">
-        {/* Boz Concept Home Title - Transparent over video */}
-        <div className="absolute top-0 left-0 right-0 z-20 py-6 text-center">
+        {/* Boz Concept Home Title - Large and Prominent */}
+        <div className="absolute top-0 left-0 right-0 z-20 py-8 text-center">
           <h1 
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-wide"
+            className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-wide mb-2"
             style={{ 
               fontFamily: 'Playfair Display, serif',
-              textShadow: '0 0 20px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 0, 0, 0.7), 2px 2px 4px rgba(0, 0, 0, 1), 0 0 10px rgba(201, 169, 98, 0.5)'
+              background: 'linear-gradient(135deg, #C9A962 0%, #E6C888 50%, #D4AF37 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 0 30px rgba(201, 169, 98, 0.8)) drop-shadow(0 0 60px rgba(201, 169, 98, 0.4))',
+              animation: 'gradient-x 3s ease infinite'
             }}
           >
             Boz Concept Home
           </h1>
+          <p className="text-[#C9A962] text-lg sm:text-xl font-semibold tracking-widest" style={{
+            textShadow: '0 0 10px rgba(0, 0, 0, 0.9)'
+          }}>
+            LÜKS & MİNİMALİST TASARIM
+          </p>
         </div>
         <video
           autoPlay
@@ -170,15 +180,15 @@ const Home = () => {
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-white px-4">
           <div className="flex items-center gap-2 mb-6 opacity-0 animate-fade-in-up">
             <Sparkles className="w-6 h-6 text-[#C9A962]" />
-            <span className="text-sm uppercase tracking-widest text-[#C9A962] font-medium">Lüks & Minimalist</span>
+            <span className="text-sm uppercase tracking-widest text-[#C9A962] font-medium">Premium Kalite</span>
           </div>
-          <h1
+          <h2
             data-testid="hero-title"
             className="text-4xl sm:text-6xl lg:text-7xl font-bold text-center mb-6 tracking-tight opacity-0 animate-fade-in-up stagger-1 leading-tight"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
             Yaşam Alanlarınızda<br />Estetiği Yeniden Tanımlayın
-          </h1>
+          </h2>
           <p className="text-base sm:text-lg text-center mb-10 max-w-2xl text-gray-300 opacity-0 animate-fade-in-up stagger-2">
             Modern ve minimalist tasarımlarımızla evinize şıklık ve fonksiyonellik katmayı keşfedin
           </p>
