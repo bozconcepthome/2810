@@ -201,85 +201,104 @@ const Products = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-20 bg-black" data-testid="products-page" style={{ zoom: '0.9' }}>
-      {/* Top Bar with Search and Filters */}
-      <div className="sticky top-16 z-30 bg-black/95 backdrop-blur-sm border-b border-gray-800 py-4">
-        <div className="max-w-[1800px] mx-auto px-8 lg:px-20">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            {/* Search Bar */}
-            <div className="relative w-full lg:w-96">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+    <div className="min-h-screen pt-20 pb-20 bg-black" data-testid="products-page">
+      {/* Hero Section with Search */}
+      <div className="relative bg-gradient-to-b from-black via-gray-900 to-black py-16 border-b border-gray-800">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(201,169,98,0.05),transparent_50%)]" />
+        <div className="max-w-[1800px] mx-auto px-8 lg:px-20 relative z-10">
+          <div className="text-center mb-10">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-[#C9A962] via-[#E6C888] to-[#C9A962] bg-clip-text text-transparent animate-gradient">
+              Lüks Koleksiyonumuz
+            </h1>
+            <p className="text-gray-400 text-lg">Eviniz için en şık ve kaliteli ürünler</p>
+          </div>
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto mb-10">
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 group-focus-within:text-[#C9A962] transition-colors" />
               <input
                 type="text"
                 placeholder="Ürün ara..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#C9A962] transition-colors"
+                className="w-full pl-14 pr-6 py-5 bg-[#1C1C1C]/80 backdrop-blur-sm border-2 border-gray-800 rounded-2xl text-white text-lg placeholder-gray-500 focus:outline-none focus:border-[#C9A962] transition-all duration-300 focus:shadow-xl focus:shadow-[#C9A962]/20"
               />
             </div>
+          </div>
 
-            {/* Filter and Sort Controls */}
-            <div className="flex items-center gap-3 w-full lg:w-auto">
-              {/* Category Dropdown */}
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="flex-1 lg:flex-none px-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white focus:outline-none focus:border-[#C9A962] transition-colors cursor-pointer"
-              >
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-
-              {/* Sort Dropdown */}
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="flex-1 lg:flex-none px-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white focus:outline-none focus:border-[#C9A962] transition-colors cursor-pointer"
-              >
-                <option value="default">Sıralama</option>
-                <option value="price-asc">Fiyat: Düşük → Yüksek</option>
-                <option value="price-desc">Fiyat: Yüksek → Düşük</option>
-                <option value="name-asc">İsim: A → Z</option>
-                <option value="name-desc">İsim: Z → A</option>
-              </select>
-
-              {/* Advanced Filters Button */}
+          {/* Category Pills */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {categories.map((cat) => (
               <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="px-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white hover:border-[#C9A962] transition-colors"
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  selectedCategory === cat
+                    ? 'bg-gradient-to-r from-[#C9A962] to-[#E6C888] text-black shadow-lg shadow-[#C9A962]/50 scale-105'
+                    : 'bg-[#1C1C1C] text-gray-300 border border-gray-700 hover:border-[#C9A962] hover:text-white hover:scale-105'
+                }`}
               >
-                <SlidersHorizontal className="w-5 h-5" />
+                {cat}
               </button>
-            </div>
+            ))}
+          </div>
+
+          {/* Sort and Filter Controls */}
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-5 py-3 bg-[#1C1C1C]/80 backdrop-blur-sm border border-gray-700 rounded-xl text-white focus:outline-none focus:border-[#C9A962] transition-colors cursor-pointer hover:border-[#C9A962]/50"
+            >
+              <option value="default">✨ Varsayılan Sıralama</option>
+              <option value="price-asc">💰 Fiyat: Düşük → Yüksek</option>
+              <option value="price-desc">💎 Fiyat: Yüksek → Düşük</option>
+              <option value="name-asc">🔤 İsim: A → Z</option>
+              <option value="name-desc">🔤 İsim: Z → A</option>
+            </select>
+
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`px-5 py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
+                showFilters
+                  ? 'bg-gradient-to-r from-[#C9A962] to-[#E6C888] text-black'
+                  : 'bg-[#1C1C1C]/80 backdrop-blur-sm text-white border border-gray-700 hover:border-[#C9A962]'
+              }`}
+            >
+              <SlidersHorizontal className="w-5 h-5" />
+              Filtrele
+            </button>
           </div>
 
           {/* Advanced Filters Panel */}
           {showFilters && (
-            <div className="mt-6 p-6 bg-[#1C1C1C] border border-gray-800 rounded-xl">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white font-semibold">Fiyat Aralığı</h3>
-                <button onClick={() => setShowFilters(false)} className="text-gray-400 hover:text-white">
-                  <X className="w-5 h-5" />
+            <div className="mt-8 p-8 bg-[#1C1C1C]/80 backdrop-blur-sm border border-gray-700 rounded-2xl max-w-2xl mx-auto animate-slideDown">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-white font-semibold text-xl flex items-center gap-2">
+                  💎 Fiyat Aralığı
+                </h3>
+                <button onClick={() => setShowFilters(false)} className="text-gray-400 hover:text-white transition-colors">
+                  <X className="w-6 h-6" />
                 </button>
               </div>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 justify-center">
                 <input
                   type="number"
                   placeholder="Min"
                   value={priceRange[0]}
                   onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
-                  className="w-24 px-3 py-2 bg-black border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#C9A962]"
+                  className="w-32 px-4 py-3 bg-black border border-gray-600 rounded-xl text-white text-center focus:outline-none focus:border-[#C9A962] transition-colors"
                 />
-                <span className="text-gray-400">-</span>
+                <span className="text-gray-400 text-xl">→</span>
                 <input
                   type="number"
                   placeholder="Max"
                   value={priceRange[1]}
                   onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-                  className="w-24 px-3 py-2 bg-black border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#C9A962]"
+                  className="w-32 px-4 py-3 bg-black border border-gray-600 rounded-xl text-white text-center focus:outline-none focus:border-[#C9A962] transition-colors"
                 />
-                <span className="text-gray-400 text-sm">₺</span>
+                <span className="text-[#C9A962] font-semibold text-lg">₺</span>
               </div>
             </div>
           )}
@@ -287,116 +306,141 @@ const Products = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-[1800px] mx-auto px-8 sm:px-10 lg:px-20 mt-16">
+      <div className="max-w-[1800px] mx-auto px-8 lg:px-20 mt-16">
         {/* Results Header */}
-        <div className="mb-12 flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold text-white mb-2">
-              {selectedCategory === 'Tümü' ? 'Tüm Ürünler' : selectedCategory}
-            </h2>
-            <p className="text-gray-400">
-              {filteredProducts.length} ürün bulundu
-            </p>
-          </div>
+        <div className="mb-12 text-center">
+          <h2 className="text-4xl font-bold text-white mb-3">
+            {selectedCategory === 'Tümü' ? '✨ Tüm Ürünlerimiz' : `${selectedCategory}`}
+          </h2>
+          <p className="text-gray-400 text-lg">
+            <span className="text-[#C9A962] font-semibold">{filteredProducts.length}</span> adet muhteşem ürün
+          </p>
         </div>
 
-        {/* Products Grid */}
+        {/* Products Grid - LUXURY VERSION */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-10 gap-y-16 mb-16">
-            {filteredProducts.map((product) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
+            {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
                 data-testid={`product-card-${product.id}`}
-                className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300 hover:shadow-2xl hover:shadow-[#C9A962]/30 hover:scale-105 hover:-translate-y-2"
-                style={{ margin: '0' }}
+                className="group relative"
+                style={{ animationDelay: `${index * 0.05}s` }}
               >
-                {/* Product Image */}
-                <Link to={`/products/${product.id}`} className="block">
-                  <div className="relative h-72 overflow-hidden bg-gradient-to-br from-gray-900 to-black">
-                    {product.image_urls && product.image_urls.length > 0 ? (
-                      <img
-                        src={product.image_urls[0]}
-                        alt={product.product_name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Package className="w-16 h-16 text-gray-700" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    {/* BOZ PLUS Badge */}
-                    {product.boz_plus_price && (
-                      <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 bg-purple-600 rounded-full border border-purple-400">
-                        <Crown className="w-3.5 h-3.5 text-purple-200 fill-purple-200" />
-                        <span className="text-xs font-bold text-white">PLUS</span>
-                      </div>
-                    )}
-                  </div>
-                </Link>
-
-                {/* Product Info */}
-                <div className="p-6">
-                  <Link to={`/products/${product.id}`}>
-                    <h3 className="text-white font-semibold text-base mb-3 line-clamp-2 group-hover:text-[#C9A962] transition-colors leading-relaxed">
-                      {product.product_name}
-                    </h3>
-                  </Link>
-                  
-                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
-                    <Package className="w-4 h-4" />
-                    <span>{product.category}</span>
-                  </div>
-
-                  {/* Pricing */}
-                  <div className="mb-4">
-                    <div className="flex items-center gap-2">
-                      {product.discounted_price ? (
-                        <>
-                          <span className="text-xl font-bold text-[#C9A962]">{product.discounted_price} ₺</span>
-                          <span className="text-sm text-gray-500 line-through">{product.price} ₺</span>
-                        </>
+                {/* Glow Effect */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#C9A962] via-[#E6C888] to-[#C9A962] rounded-3xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500 group-hover:animate-pulse" />
+                
+                {/* Main Card */}
+                <div className="relative bg-gradient-to-br from-[#1C1C1C] to-black rounded-3xl overflow-hidden border border-gray-800 group-hover:border-[#C9A962] transition-all duration-500 group-hover:scale-105 group-hover:-translate-y-3 shadow-2xl group-hover:shadow-[#C9A962]/30">
+                  {/* Product Image */}
+                  <Link to={`/products/${product.id}`} className="block">
+                    <div className="relative h-80 overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900">
+                      {product.image_urls && product.image_urls.length > 0 ? (
+                        <img
+                          src={product.image_urls[0]}
+                          alt={product.product_name}
+                          className="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-2 transition-all duration-700"
+                          loading="lazy"
+                        />
                       ) : (
-                        <span className="text-xl font-bold text-[#C9A962]">{product.price} ₺</span>
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Package className="w-20 h-20 text-gray-700" />
+                        </div>
+                      )}
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
+                      
+                      {/* BOZ PLUS Badge */}
+                      {product.boz_plus_price && (
+                        <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 bg-purple-600/90 backdrop-blur-sm rounded-full border border-purple-400 shadow-lg shadow-purple-500/50 animate-pulse">
+                          <Crown className="w-4 h-4 text-purple-200 fill-purple-200" />
+                          <span className="text-xs font-bold text-white">PLUS</span>
+                        </div>
+                      )}
+
+                      {/* Quick View Hint */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-black/80 backdrop-blur-sm px-6 py-3 rounded-full border border-[#C9A962] text-[#C9A962] font-semibold">
+                          Detayları Gör
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+
+                  {/* Product Info */}
+                  <div className="p-6 space-y-4">
+                    {/* Category Tag */}
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="px-3 py-1 bg-[#C9A962]/10 border border-[#C9A962]/30 rounded-lg">
+                        <span className="text-[#C9A962] font-medium">{product.category}</span>
+                      </div>
+                    </div>
+
+                    {/* Product Name */}
+                    <Link to={`/products/${product.id}`}>
+                      <h3 className="text-white font-bold text-lg mb-2 line-clamp-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#C9A962] group-hover:to-[#E6C888] group-hover:bg-clip-text transition-all duration-300 leading-tight min-h-[56px]">
+                        {product.product_name}
+                      </h3>
+                    </Link>
+
+                    {/* Pricing */}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3">
+                        {product.discounted_price ? (
+                          <>
+                            <span className="text-2xl font-bold bg-gradient-to-r from-[#C9A962] to-[#E6C888] bg-clip-text text-transparent">
+                              {product.discounted_price} ₺
+                            </span>
+                            <span className="text-base text-gray-500 line-through">{product.price} ₺</span>
+                          </>
+                        ) : (
+                          <span className="text-2xl font-bold bg-gradient-to-r from-[#C9A962] to-[#E6C888] bg-clip-text text-transparent">
+                            {product.price} ₺
+                          </span>
+                        )}
+                      </div>
+
+                      {/* BOZ PLUS Price */}
+                      {product.boz_plus_price && (
+                        <div className="bg-gradient-to-r from-purple-900/30 to-purple-800/30 border border-purple-500/50 rounded-xl px-3 py-2 backdrop-blur-sm">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Crown className="w-4 h-4 text-purple-400" />
+                              <span className="text-xs text-purple-300 font-medium">BOZ PLUS</span>
+                            </div>
+                            <span className="text-base font-bold text-purple-400">{product.boz_plus_price} ₺</span>
+                          </div>
+                        </div>
                       )}
                     </div>
 
-                    {/* BOZ PLUS Price */}
-                    {product.boz_plus_price && (
-                      <div className="mt-3 bg-purple-900/20 border border-purple-500 rounded-lg px-3 py-2">
-                        <div className="flex items-center gap-2">
-                          <Crown className="w-3.5 h-3.5 text-purple-400" />
-                          <span className="text-sm font-bold text-purple-400">{product.boz_plus_price} ₺</span>
-                        </div>
-                      </div>
-                    )}
+                    {/* Add to Cart Button */}
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleAddToCart(e, product);
+                      }}
+                      disabled={addingToCart[product.id]}
+                      className="w-full bg-gradient-to-r from-[#C9A962] via-[#E6C888] to-[#C9A962] hover:from-[#E6C888] hover:via-[#C9A962] hover:to-[#E6C888] text-black font-bold py-4 rounded-xl transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-[#C9A962]/60 active:scale-95 flex items-center justify-center gap-2 group relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                      <ShoppingCart className="w-5 h-5 group-hover:scale-125 transition-transform duration-300" />
+                      <span className="text-base tracking-wide">
+                        {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
+                      </span>
+                    </Button>
                   </div>
-
-                  {/* Add to Cart Button */}
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleAddToCart(e, product);
-                    }}
-                    disabled={addingToCart[product.id]}
-                    className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-semibold py-3 rounded-lg transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-[#C9A962]/50 active:scale-95 flex items-center justify-center gap-2 group"
-                  >
-                    <ShoppingCart className="w-4 h-4 group-hover:animate-bounce" />
-                    <span className="group-hover:scale-105 transition-transform duration-200">
-                      {addingToCart[product.id] ? 'Ekleniyor...' : 'Sepete Ekle'}
-                    </span>
-                  </Button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
           <div className="text-center py-32">
-            <Package className="w-20 h-20 text-gray-600 mx-auto mb-6" />
-            <h3 className="text-2xl font-semibold text-gray-400 mb-3">Ürün Bulunamadı</h3>
-            <p className="text-gray-500 text-lg">Arama kriterlerinize uygun ürün bulunamadı</p>
+            <div className="inline-block p-8 bg-[#1C1C1C] rounded-3xl border border-gray-800">
+              <Package className="w-24 h-24 text-gray-600 mx-auto mb-6" />
+              <h3 className="text-3xl font-bold text-gray-300 mb-3">Ürün Bulunamadı</h3>
+              <p className="text-gray-500 text-lg">Arama kriterlerinize uygun ürün bulunamadı</p>
+            </div>
           </div>
         )}
       </div>
