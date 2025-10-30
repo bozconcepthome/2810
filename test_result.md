@@ -458,9 +458,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Admin Dashboard Stats API"
-    - "Admin Cart Analytics API"
-    - "Admin Users Detailed API"
+    - "Preorder Products API"
+    - "Image Upload API"
+    - "Enhanced Admin Cart Analytics API"
+    - "Enhanced Admin Users Detailed API"
+    - "Enhanced Admin Dashboard Stats API"
+    - "User Phone Update API"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
