@@ -4,7 +4,8 @@ import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { 
   GripVertical, Plus, Edit2, Trash2, Eye, EyeOff, 
-  Package, Save, X, Upload, Calendar, Percent, Tag
+  Package, Save, X, Upload, Calendar, Percent, Tag,
+  ChevronUp, ChevronDown
 } from 'lucide-react';
 import { toast } from 'sonner';
 
