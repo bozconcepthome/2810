@@ -269,7 +269,7 @@ const AdminProductFormEnhanced = () => {
                 />
               </label>
               <p className="text-gray-500 text-sm mt-2">
-                Birden fazla resim seçebilirsiniz (Maks: 5MB/resim)
+                Birden fazla resim seçebilirsiniz (Maks: 20MB/resim - Otomatik sıkıştırılır)
               </p>
             </div>
 
