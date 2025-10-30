@@ -33,10 +33,10 @@ const Account = () => {
   });
 
   React.useEffect(() => {
-    if (!user || !token) {
+    if (!authLoading && (!user || !token)) {
       navigate('/auth');
     }
-  }, [user, token, navigate]);
+  }, [user, token, authLoading, navigate]);
 
   const handlePhoneUpdate = async (e) => {
     e.preventDefault();
