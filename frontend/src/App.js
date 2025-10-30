@@ -156,7 +156,7 @@ function App() {
                 <Route path="products/edit/:id" element={<AdminProductForm />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="users" element={<AdminUsers />} />
-                <Route path="categories" element={<AdminCategories />} />
+                <Route path="categories" element={<AdminCategoriesNew />} />
                 <Route path="categories/:categoryName/products" element={<AdminCategoryProducts />} />
                 <Route path="analytics" element={<AdminAnalytics />} />
                 <Route path="boz-plus" element={<AdminBozPlus />} />
