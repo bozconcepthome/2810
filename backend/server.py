@@ -1585,13 +1585,14 @@ async def admin_create_preorder(
     existing = await db.preorder_products.find({}, {"_id": 0, "order": 1}).to_list(1000)
     max_order = max([p.get("order", 0) for p in existing], default=-1)
     
-    preorder_dict = preorder.model_dump()
-    preorder_dict["id"] = str(uuid.uuid4())
-    preorder_dict["order"] = max_order + 1
-    preorder_dict["created_at"] = datetime.now(timezone.utc).isoformat()
+    # Create PreorderProduct model instance
+    preorder_product = PreorderProduct(
+        **preorder.model_dump(),
+        order=max_order + 1
+    )
     
-    await db.preorder_products.insert_one(preorder_dict)
-    return preorder_dict
+    await db.preorder_products.insert_one(preorder_product.model_dump())
+    return preorder_product
 
 @api_router.put("/admin/preorder-products/{preorder_id}")
 async def admin_update_preorder(
