@@ -213,7 +213,7 @@ const AdminPreorders = () => {
       ...formData,
       estimated_price: parseFloat(formData.estimated_price),
       discount_percentage: parseInt(formData.discount_percentage) || 0,
-      image_urls: formData.image_urls.filter(url => url.trim() !== '')
+      category: categories[selectedCategoryIndex] || formData.category
     };
 
     try {
