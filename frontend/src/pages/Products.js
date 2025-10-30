@@ -308,10 +308,11 @@ const Products = () => {
                 key={product.id}
                 data-testid={`product-card-${product.id}`}
                 className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300 hover:shadow-2xl hover:shadow-[#C9A962]/30 hover:scale-105 hover:-translate-y-2"
+                style={{ margin: '0' }}
               >
                 {/* Product Image */}
                 <Link to={`/products/${product.id}`} className="block">
-                  <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 to-black">
+                  <div className="relative h-72 overflow-hidden bg-gradient-to-br from-gray-900 to-black">
                     {product.image_urls && product.image_urls.length > 0 ? (
                       <img
                         src={product.image_urls[0]}
