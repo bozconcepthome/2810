@@ -390,7 +390,7 @@ async def update_phone(
 ):
     """Update user phone number"""
     # Update phone
-    await users_collection.update_one(
+    await db.users.update_one(
         {"id": current_user.id},
         {"$set": {"phone_number": phone_number}}
     )
