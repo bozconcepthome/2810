@@ -401,7 +401,7 @@ async def update_phone(
 async def forgot_password(email: str = Body(..., embed=True)):
     """Send password reset email"""
     # Check if user exists
-    user = await users_collection.find_one({"email": email})
+    user = await db.users.find_one({"email": email})
     if not user:
         # Don't reveal if email exists or not for security
         return {"message": "Eğer e-posta kayıtlıysa, sıfırlama bağlantısı gönderildi"}
@@ -414,7 +414,7 @@ async def forgot_password(email: str = Body(..., embed=True)):
     expires_at = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     
     # Save reset token to database
-    await users_collection.update_one(
+    await db.users.update_one(
         {"id": user["id"]},
         {"$set": {
             "reset_token": reset_token,
