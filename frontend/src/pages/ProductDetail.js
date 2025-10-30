@@ -239,7 +239,46 @@ const ProductDetail = () => {
                   </span>
                   <span className="text-lg text-green-500 font-medium px-3 py-1 bg-green-500/10 rounded-full">
                     {product.stock_status}
+                    {product.stock_amount && ` (${product.stock_amount} adet)`}
                   </span>
+                </div>
+                
+                {/* Product Description */}
+                {product.description && (
+                  <div className="bg-[#1C1C1C] border border-gray-800 rounded-xl p-4 mt-4">
+                    <h3 className="text-lg font-semibold text-white mb-2">Ürün Açıklaması</h3>
+                    <p className="text-gray-300 leading-relaxed text-sm whitespace-pre-line">
+                      {product.description}
+                    </p>
+                  </div>
+                )}
+
+                {/* Product Details Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                  {product.colors && (
+                    <div className="bg-[#1C1C1C] border border-gray-800 rounded-lg p-3">
+                      <p className="text-gray-500 text-xs mb-1">Renk</p>
+                      <p className="text-white font-medium">{product.colors}</p>
+                    </div>
+                  )}
+                  {product.dimensions && (
+                    <div className="bg-[#1C1C1C] border border-gray-800 rounded-lg p-3">
+                      <p className="text-gray-500 text-xs mb-1">Boyut/Ebat</p>
+                      <p className="text-white font-medium">{product.dimensions}</p>
+                    </div>
+                  )}
+                  {product.barcode && (
+                    <div className="bg-[#1C1C1C] border border-gray-800 rounded-lg p-3">
+                      <p className="text-gray-500 text-xs mb-1">Barkod</p>
+                      <p className="text-white font-mono text-sm">{product.barcode}</p>
+                    </div>
+                  )}
+                  {product.materials && (
+                    <div className="bg-[#1C1C1C] border border-gray-800 rounded-lg p-3">
+                      <p className="text-gray-500 text-xs mb-1">Malzeme</p>
+                      <p className="text-white font-medium">{product.materials}</p>
+                    </div>
+                  )}
                 </div>
                 
                 {/* BOZ PLUS Price - Everyone can see */}
