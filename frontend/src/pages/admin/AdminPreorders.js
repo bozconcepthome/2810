@@ -275,30 +275,6 @@ const AdminPreorders = () => {
     }
   };
 
-  const addImageUrl = () => {
-    setFormData({
-      ...formData,
-      image_urls: [...formData.image_urls, '']
-    });
-  };
-
-  const removeImageUrl = (index) => {
-    const newUrls = formData.image_urls.filter((_, i) => i !== index);
-    setFormData({
-      ...formData,
-      image_urls: newUrls.length > 0 ? newUrls : ['']
-    });
-  };
-
-  const updateImageUrl = (index, value) => {
-    const newUrls = [...formData.image_urls];
-    newUrls[index] = value;
-    setFormData({
-      ...formData,
-      image_urls: newUrls
-    });
-  };
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
