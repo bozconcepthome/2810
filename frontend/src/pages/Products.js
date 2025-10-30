@@ -204,30 +204,114 @@ const Products = () => {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-black" data-testid="products-page">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#C9A962]/10 rounded-full mb-6">
-            <Grid className="w-4 h-4 text-[#C9A962]" />
-            <span className="text-sm font-semibold text-[#C9A962] uppercase tracking-wide">Koleksiyonlar</span>
+    <div className="min-h-screen pt-20 pb-20 bg-black" data-testid="products-page">
+      {/* Top Bar with Search and Filters */}
+      <div className="sticky top-16 z-30 bg-black/95 backdrop-blur-sm border-b border-gray-800 py-4">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+            {/* Search Bar */}
+            <div className="relative w-full lg:w-96">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Ürün ara..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#C9A962] transition-colors"
+              />
+            </div>
+
+            {/* Filter and Sort Controls */}
+            <div className="flex items-center gap-3 w-full lg:w-auto">
+              {/* Category Dropdown */}
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="flex-1 lg:flex-none px-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white focus:outline-none focus:border-[#C9A962] transition-colors cursor-pointer"
+              >
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+
+              {/* Sort Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="flex-1 lg:flex-none px-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white focus:outline-none focus:border-[#C9A962] transition-colors cursor-pointer"
+              >
+                <option value="default">Sıralama</option>
+                <option value="price-asc">Fiyat: Düşük → Yüksek</option>
+                <option value="price-desc">Fiyat: Yüksek → Düşük</option>
+                <option value="name-asc">İsim: A → Z</option>
+                <option value="name-desc">İsim: Z → A</option>
+              </select>
+
+              {/* Advanced Filters Button */}
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="px-4 py-3 bg-[#1C1C1C] border border-gray-800 rounded-xl text-white hover:border-[#C9A962] transition-colors"
+              >
+                <SlidersHorizontal className="w-5 h-5" />
+              </button>
+            </div>
           </div>
-          <h1
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6"
-            style={{ fontFamily: 'Playfair Display, serif' }}
-          >
-            Ürün Kategorileri
-          </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Her kategori özenle seçilmiş, kaliteli ve şık ürünlerle doludur
-          </p>
+
+          {/* Advanced Filters Panel */}
+          {showFilters && (
+            <div className="mt-4 p-4 bg-[#1C1C1C] border border-gray-800 rounded-xl">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white font-semibold">Fiyat Aralığı</h3>
+                <button onClick={() => setShowFilters(false)} className="text-gray-400 hover:text-white">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="flex items-center gap-4">
+                <input
+                  type="number"
+                  placeholder="Min"
+                  value={priceRange[0]}
+                  onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                  className="w-24 px-3 py-2 bg-black border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#C9A962]"
+                />
+                <span className="text-gray-400">-</span>
+                <input
+                  type="number"
+                  placeholder="Max"
+                  value={priceRange[1]}
+                  onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                  className="w-24 px-3 py-2 bg-black border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#C9A962]"
+                />
+                <span className="text-gray-400 text-sm">₺</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        {/* Results Header */}
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold text-white mb-2">
+              {selectedCategory === 'Tümü' ? 'Tüm Ürünler' : selectedCategory}
+            </h2>
+            <p className="text-gray-400">
+              {filteredProducts.length} ürün bulundu
+            </p>
+          </div>
         </div>
 
-        {/* Best Sellers Section */}
-        {bestSellers.length > 0 && (
-          <div className="mb-16 animate-fade-in-up" data-testid="best-sellers-section">
-            {/* Section Header */}
-            <div className="relative mb-10">
+        {/* Products Grid */}
+        {filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                data-testid={`product-card-${product.id}`}
+                className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300 hover:shadow-2xl hover:shadow-[#C9A962]/30 hover:scale-105 hover:-translate-y-2"
+              >
               <div className="flex items-center justify-center mb-8">
                 <div className="relative inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-orange-600/20 via-red-600/20 to-orange-600/20 rounded-full border-2 border-orange-500/50 shadow-[0_0_30px_rgba(249,115,22,0.3)]">
                   <Flame className="w-6 h-6 text-orange-500 animate-pulse" />
