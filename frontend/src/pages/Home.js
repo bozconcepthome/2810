@@ -206,11 +206,20 @@ const Home = () => {
       </section>
 
       {/* Categories Grid */}
-      <section className="py-24 bg-black" data-testid="categories-section">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-black relative" data-testid="categories-section">
+        {/* Background Brand Watermark */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+          <p className="text-9xl font-bold text-white" style={{ fontFamily: 'Playfair Display, serif' }}>
+            BOZ CONCEPT
+          </p>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#C9A962]/10 rounded-full mb-4">
-              <span className="text-sm font-semibold text-[#C9A962] uppercase tracking-wide">Kategoriler</span>
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#C9A962]/20 to-[#E6C888]/20 border border-[#C9A962]/30 rounded-full mb-6">
+              <span className="text-base font-bold bg-gradient-to-r from-[#C9A962] to-[#E6C888] bg-clip-text text-transparent uppercase tracking-wide">
+                Boz Concept Home Kategoriler
+              </span>
             </div>
             <h2
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6"
