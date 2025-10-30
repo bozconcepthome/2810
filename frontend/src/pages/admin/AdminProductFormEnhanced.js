@@ -108,47 +108,69 @@ const AdminProductFormEnhanced = () => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
-    // Validate
+    // Validate - increased limit to 20MB
     for (const file of files) {
       if (!file.type.startsWith('image/')) {
         toast.error(`${file.name} bir resim dosyası değil`);
         return;
       }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`${file.name} 5MB'dan büyük`);
+      if (file.size > 20 * 1024 * 1024) {
+        toast.error(`${file.name} 20MB'dan büyük (${(file.size / (1024 * 1024)).toFixed(1)}MB)`, {
+          duration: 3000
+        });
         return;
       }
     }
 
     setUploading(true);
     const uploadedUrls = [];
+    let successCount = 0;
+    let failCount = 0;
 
     try {
-      for (const file of files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
         const formDataUpload = new FormData();
         formDataUpload.append('file', file);
 
-        const response = await axios.post(
-          `${API_URL}/api/admin/upload-image`,
-          formDataUpload,
-          {
-            headers: {
-              ...getAuthHeader(),
-              'Content-Type': 'multipart/form-data'
+        try {
+          const response = await axios.post(
+            `${API_URL}/api/admin/upload-image`,
+            formDataUpload,
+            {
+              headers: {
+                ...getAuthHeader(),
+                'Content-Type': 'multipart/form-data'
+              }
             }
-          }
-        );
+          );
 
-        uploadedUrls.push(response.data.url);
+          uploadedUrls.push(response.data.image_url);
+          successCount++;
+          
+          // Show compression info
+          if (response.data.compression_ratio) {
+            console.log(`✅ ${file.name}: ${response.data.original_size_mb}MB → ${response.data.compressed_size_mb}MB (${response.data.compression_ratio}% sıkıştırma)`);
+          }
+        } catch (err) {
+          console.error(`❌ ${file.name} yükleme hatası:`, err);
+          failCount++;
+        }
       }
 
-      setUploadedImages(prev => [...prev, ...uploadedUrls]);
-      setFormData(prev => ({
-        ...prev,
-        image_urls: [...prev.image_urls, ...uploadedUrls]
-      }));
-      
-      toast.success(`${files.length} görsel yüklendi`);
+      if (uploadedUrls.length > 0) {
+        setUploadedImages(prev => [...prev, ...uploadedUrls]);
+        setFormData(prev => ({
+          ...prev,
+          image_urls: [...prev.image_urls, ...uploadedUrls]
+        }));
+        
+        toast.success(`✅ ${successCount} görsel başarıyla yüklendi${failCount > 0 ? ` (${failCount} başarısız)` : ''}`, {
+          duration: 2000
+        });
+      } else {
+        toast.error('Hiçbir görsel yüklenemedi');
+      }
     } catch (error) {
       console.error('Upload error:', error);
       toast.error('Görsel yükleme başarısız');
