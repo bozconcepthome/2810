@@ -252,63 +252,133 @@ const Products = () => {
           </div>
 
           {/* Pre-order Banner (only in categories view) */}
-          {viewMode === 'categories' && (
-            <div className="max-w-5xl mx-auto mb-10">
-              <div className="relative group">
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 rounded-2xl opacity-60 blur-xl group-hover:opacity-80 transition-all duration-300 animate-pulse" />
-                
-                {/* Pre-order Card */}
-                <div className="relative bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-purple-900/40 backdrop-blur-sm border-2 border-purple-500/50 rounded-2xl p-8 overflow-hidden">
-                  {/* Background Pattern */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(147,51,234,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(147,51,234,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
-                  
-                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                    {/* Left Side - Info */}
-                    <div className="flex-1 text-center md:text-left">
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600/30 border border-purple-400 rounded-full mb-4">
-                        <Sparkles className="text-purple-300" size={16} />
-                        <span className="text-purple-300 text-sm font-bold uppercase tracking-wide">Yakında</span>
-                      </div>
-                      <h2 className="text-3xl md:text-4xl font-bold text-white mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                        Yeni Ürünler Geliyor!
-                      </h2>
-                      <p className="text-purple-200 text-lg mb-4">
-                        Özel tasarım koleksiyonumuz için ön sipariş verin, ilk siz sahip olun
-                      </p>
-                      <ul className="space-y-2 text-purple-300 text-sm">
-                        <li className="flex items-center gap-2 justify-center md:justify-start">
-                          <span className="text-green-400">✓</span>
-                          Erken rezervasyon indirimi
-                        </li>
-                        <li className="flex items-center gap-2 justify-center md:justify-start">
-                          <span className="text-green-400">✓</span>
-                          Öncelikli teslimat
-                        </li>
-                        <li className="flex items-center gap-2 justify-center md:justify-start">
-                          <span className="text-green-400">✓</span>
-                          Sınırlı sayıda üretim
-                        </li>
-                      </ul>
-                    </div>
+          {viewMode === 'categories' && preorderProducts.length > 0 && (
+            <div className="mb-10">
+              {/* Header */}
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600/30 border border-purple-400 rounded-full mb-3">
+                  <Sparkles className="text-purple-300" size={16} />
+                  <span className="text-purple-300 text-sm font-bold uppercase tracking-wide">Yakında</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  Yeni Ürünler - Ön Sipariş
+                </h2>
+                <p className="text-purple-200 text-lg">
+                  Özel tasarım koleksiyonumuz için ön sipariş verin, ilk siz sahip olun
+                </p>
+              </div>
 
-                    {/* Right Side - CTA */}
-                    <div className="flex-shrink-0">
-                      <button
-                        className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 hover:from-purple-500 hover:via-pink-400 hover:to-purple-500 text-white font-bold px-8 py-4 rounded-xl transition-all duration-500 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/60 group"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        <span className="relative flex items-center gap-2 text-lg">
-                          <Sparkles size={20} />
+              {/* Preorder Products Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {preorderProducts.map((product, index) => (
+                  <div
+                    key={product.id}
+                    className="relative group"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    {/* Glow */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 rounded-2xl opacity-50 group-hover:opacity-75 blur-xl transition-all duration-300" />
+                    
+                    {/* Card */}
+                    <div className="relative bg-gradient-to-br from-[#1C1C1C] to-black border-2 border-purple-500/50 rounded-2xl overflow-hidden group-hover:border-purple-400 transition-all duration-300">
+                      {/* Coming Soon Badge */}
+                      <div className="absolute top-3 left-3 z-10 px-3 py-1.5 bg-purple-600 rounded-full border border-purple-400 shadow-lg">
+                        <span className="text-white text-xs font-bold">YAKINDA</span>
+                      </div>
+
+                      {/* Discount Badge */}
+                      {product.discount_percentage > 0 && (
+                        <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-green-600 rounded-full border border-green-400 shadow-lg">
+                          <span className="text-white text-xs font-bold">-%{product.discount_percentage} İNDİRİM</span>
+                        </div>
+                      )}
+
+                      {/* Image */}
+                      <div className="h-64 overflow-hidden bg-gradient-to-br from-purple-900/20 to-pink-900/20">
+                        {product.image_urls && product.image_urls[0] ? (
+                          <img 
+                            src={product.image_urls[0]}
+                            alt={product.product_name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Package className="w-20 h-20 text-purple-500/30" />
+                          </div>
+                        )}
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-5 space-y-3">
+                        {/* Category */}
+                        {product.category && (
+                          <div className="inline-block px-3 py-1 bg-purple-500/20 border border-purple-500/50 rounded-lg">
+                            <span className="text-purple-300 text-xs font-semibold">{product.category}</span>
+                          </div>
+                        )}
+
+                        {/* Product Name */}
+                        <h3 className="text-white font-bold text-lg line-clamp-2 min-h-[56px]">
+                          {product.product_name}
+                        </h3>
+
+                        {/* Description */}
+                        {product.description && (
+                          <p className="text-gray-400 text-sm line-clamp-2">
+                            {product.description}
+                          </p>
+                        )}
+
+                        {/* Price */}
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl font-bold text-purple-400">
+                            ~{product.estimated_price} ₺
+                          </span>
+                          {product.discount_percentage > 0 && (
+                            <span className="px-2 py-1 bg-green-500/20 border border-green-500 rounded text-green-400 text-xs font-bold">
+                              -%{product.discount_percentage}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Release Date */}
+                        {product.estimated_release_date && (
+                          <p className="text-purple-300 text-sm">
+                            📅 Tahmini Çıkış: {new Date(product.estimated_release_date).toLocaleDateString('tr-TR')}
+                          </p>
+                        )}
+
+                        {/* Preorder Button */}
+                        <button
+                          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50 flex items-center justify-center gap-2"
+                        >
+                          <Sparkles size={18} />
                           Ön Sipariş Ver
-                        </span>
-                      </button>
-                      <p className="text-purple-300 text-xs text-center mt-3">
-                        🔔 Bildirim almak için tıklayın
-                      </p>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
+              </div>
+
+              {/* Info Box */}
+              <div className="max-w-3xl mx-auto bg-purple-500/10 border border-purple-500/30 rounded-xl p-6">
+                <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 text-purple-300 text-sm">
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400 text-lg">✓</span>
+                    Erken rezervasyon indirimi
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400 text-lg">✓</span>
+                    Öncelikli teslimat
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-green-400 text-lg">✓</span>
+                    Sınırlı sayıda üretim
+                  </li>
+                </ul>
               </div>
             </div>
           )}
