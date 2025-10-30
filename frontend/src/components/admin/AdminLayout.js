@@ -11,7 +11,8 @@ import {
   X,
   Layers,
   BarChart3,
-  Crown
+  Crown,
+  Sparkles
 } from 'lucide-react';
 
 const AdminLayout = () => {
