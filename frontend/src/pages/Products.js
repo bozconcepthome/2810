@@ -240,6 +240,68 @@ const Products = () => {
             </p>
           </div>
 
+          {/* Pre-order Banner (only in categories view) */}
+          {viewMode === 'categories' && (
+            <div className="max-w-5xl mx-auto mb-10">
+              <div className="relative group">
+                {/* Glow Effect */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 rounded-2xl opacity-60 blur-xl group-hover:opacity-80 transition-all duration-300 animate-pulse" />
+                
+                {/* Pre-order Card */}
+                <div className="relative bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-purple-900/40 backdrop-blur-sm border-2 border-purple-500/50 rounded-2xl p-8 overflow-hidden">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(147,51,234,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(147,51,234,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
+                  
+                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    {/* Left Side - Info */}
+                    <div className="flex-1 text-center md:text-left">
+                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600/30 border border-purple-400 rounded-full mb-4">
+                        <Sparkles className="text-purple-300" size={16} />
+                        <span className="text-purple-300 text-sm font-bold uppercase tracking-wide">Yakında</span>
+                      </div>
+                      <h2 className="text-3xl md:text-4xl font-bold text-white mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                        Yeni Ürünler Geliyor!
+                      </h2>
+                      <p className="text-purple-200 text-lg mb-4">
+                        Özel tasarım koleksiyonumuz için ön sipariş verin, ilk siz sahip olun
+                      </p>
+                      <ul className="space-y-2 text-purple-300 text-sm">
+                        <li className="flex items-center gap-2 justify-center md:justify-start">
+                          <span className="text-green-400">✓</span>
+                          Erken rezervasyon indirimi
+                        </li>
+                        <li className="flex items-center gap-2 justify-center md:justify-start">
+                          <span className="text-green-400">✓</span>
+                          Öncelikli teslimat
+                        </li>
+                        <li className="flex items-center gap-2 justify-center md:justify-start">
+                          <span className="text-green-400">✓</span>
+                          Sınırlı sayıda üretim
+                        </li>
+                      </ul>
+                    </div>
+
+                    {/* Right Side - CTA */}
+                    <div className="flex-shrink-0">
+                      <button
+                        className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 hover:from-purple-500 hover:via-pink-400 hover:to-purple-500 text-white font-bold px-8 py-4 rounded-xl transition-all duration-500 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/60 group"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                        <span className="relative flex items-center gap-2 text-lg">
+                          <Sparkles size={20} />
+                          Ön Sipariş Ver
+                        </span>
+                      </button>
+                      <p className="text-purple-300 text-xs text-center mt-3">
+                        🔔 Bildirim almak için tıklayın
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Back Button (when in products view) */}
           {viewMode === 'products' && (
             <div className="flex justify-center mb-8">
