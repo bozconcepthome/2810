@@ -170,22 +170,23 @@ const ProductDetail = () => {
                   <img
                     src={product.image_urls[currentImageIndex]}
                     alt={product.product_name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover cursor-zoom-in"
                     data-testid="product-main-image"
+                    onClick={() => setIsImageModalOpen(true)}
                   />
                   {product.image_urls.length > 1 && (
                     <>
                       <button
                         onClick={prevImage}
                         data-testid="prev-image-button"
-                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-black text-white p-3 rounded-full shadow-lg transition"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-black text-white p-3 rounded-full shadow-lg transition z-10"
                       >
                         <ChevronLeft className="w-6 h-6" />
                       </button>
                       <button
                         onClick={nextImage}
                         data-testid="next-image-button"
-                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-black text-white p-3 rounded-full shadow-lg transition"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-black text-white p-3 rounded-full shadow-lg transition z-10"
                       >
                         <ChevronRight className="w-6 h-6" />
                       </button>
@@ -207,7 +208,7 @@ const ProductDetail = () => {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     data-testid={`thumbnail-${index}`}
-                    className={`aspect-square bg-[#1C1C1C] rounded-lg overflow-hidden border-2 transition ${
+                    className={`aspect-square bg-[#1C1C1C] rounded-lg overflow-hidden border-2 transition cursor-pointer ${
                       currentImageIndex === index
                         ? 'border-[#C9A962]'
                         : 'border-gray-800 hover:border-gray-600'
@@ -216,6 +217,60 @@ const ProductDetail = () => {
                     <img src={url} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
+              </div>
+            )}
+
+            {/* Image Modal - Full Screen */}
+            {isImageModalOpen && (
+              <div 
+                className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+                onClick={() => setIsImageModalOpen(false)}
+              >
+                <button
+                  onClick={() => setIsImageModalOpen(false)}
+                  className="absolute top-4 right-4 text-white hover:text-[#C9A962] transition-colors z-10"
+                >
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                
+                <div className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center p-4">
+                  <img
+                    src={product.image_urls[currentImageIndex]}
+                    alt={product.product_name}
+                    className="max-w-full max-h-full object-contain"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  
+                  {product.image_urls.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          prevImage();
+                        }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-[#C9A962] text-white p-4 rounded-full shadow-lg transition"
+                      >
+                        <ChevronLeft className="w-8 h-8" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          nextImage();
+                        }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-[#C9A962] text-white p-4 rounded-full shadow-lg transition"
+                      >
+                        <ChevronRight className="w-8 h-8" />
+                      </button>
+                      
+                      {/* Image Counter */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/80 rounded-full text-white">
+                        {currentImageIndex + 1} / {product.image_urls.length}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             )}
           </div>
