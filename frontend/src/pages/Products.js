@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { ChevronRight, Grid, Package, Crown, TrendingUp, Flame, Star, ShoppingCart, Search, SlidersHorizontal, X } from 'lucide-react';
+import { ChevronRight, Grid, Package, Crown, TrendingUp, Flame, Star, ShoppingCart, Search, SlidersHorizontal, X, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
