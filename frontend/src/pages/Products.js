@@ -16,13 +16,15 @@ const Products = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'Tümü');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || null);
   const [sortBy, setSortBy] = useState('default');
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState(selectedCategory ? 'products' : 'categories'); // 'categories' or 'products'
   
   const { user, token } = useAuth();
   const { addToCart } = useCart();
