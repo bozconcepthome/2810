@@ -241,6 +241,9 @@ backend_old:
       - working: true
         agent: "testing"
         comment: "✅ TESTED: All category management APIs working correctly. GET /api/admin/categories returns 17 categories properly sorted by order with required fields (id, name, order, is_active). POST creates categories successfully. PUT updates categories correctly. DELETE removes categories successfully. POST /api/admin/categories/reorder successfully reorders categories. All endpoints properly protected with admin authentication."
+      - working: true
+        agent: "testing"
+        comment: "✅ RE-TESTED (User Request): Comprehensive admin panel backend API testing completed with 100% pass rate (13/13 tests). Admin authentication working perfectly (admin@bozconcept.com/admin123). All category management CRUD operations verified: GET returns 18 categories (Active: 18, Hidden: 0), POST creates 'Test Kategori' successfully, PUT updates name and toggles is_active correctly, DELETE removes test category successfully, POST reorder works correctly. Products APIs working: GET /api/admin/products returns 76 products, GET /api/products?category={name} returns products by category. Statistics verified: 18 categories with product counts per category calculated correctly. All admin endpoints properly protected with authentication (401/403 without token). Test script: /app/admin_panel_test.py"
 
   - task: "Admin Category Product Sorting APIs"
     implemented: true
