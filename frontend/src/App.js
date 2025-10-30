@@ -28,6 +28,7 @@ import AdminUsersEnhanced from './pages/admin/AdminUsersEnhanced';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminCategoriesNew from './pages/admin/AdminCategoriesNew';
 import AdminCategories from './pages/admin/AdminCategories';
+import AdminPreorders from './pages/admin/AdminPreorders';
 import AdminCategoryProducts from './pages/admin/AdminCategoryProducts';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
 import AdminBozPlus from './pages/admin/AdminBozPlus';
