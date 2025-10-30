@@ -105,6 +105,96 @@
 user_problem_statement: "Products sayfasını lüks ve full animasyonlu hale getirmek, kategori butonlarını geri eklemek"
 
 backend:
+  - task: "Preorder Products API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Preorder products API implemented with full CRUD operations: GET /api/preorder-products (public - active only), GET /api/admin/preorder-products (admin - all), POST /api/admin/preorder-products (create with all fields), PUT /api/admin/preorder-products/{id} (update), DELETE /api/admin/preorder-products/{id} (delete), POST /api/admin/preorder-products/reorder (reorder). All admin endpoints protected with admin middleware."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: All 6 preorder product endpoints working correctly (6/6 tests passed). Public endpoint returns 3 active preorders. Admin endpoint returns all preorders. Create endpoint successfully creates preorder with all fields (product_name, description, estimated_price, estimated_release_date, image_urls, category, discount_percentage, is_active). Update endpoint correctly updates all fields. Delete endpoint removes preorders successfully. Reorder endpoint successfully reorders preorders. FIXED: ObjectId serialization issue in create endpoint - changed to return PreorderProduct model instance instead of dict."
+
+  - task: "Image Upload API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Image upload endpoint POST /api/admin/upload-image implemented. Files saved to /app/backend/uploads/ directory. Static file serving configured. Returns public URL."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Image upload API working correctly with different file sizes (3/3 tests passed). Small file (100x100): uploaded and accessible. Medium file (500x500): uploaded and accessible. Large file (1920x1080): uploaded and accessible. All uploaded images verified accessible via returned URLs. Files correctly saved to /app/backend/uploads/ directory."
+
+  - task: "Enhanced Admin Cart Analytics API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Cart analytics endpoint GET /api/admin/cart-analytics implemented. Returns total_users_with_cart, total_products_in_carts, products (top 20 with cart_count, image_url, and user details), user_carts (all users with cart items). Provides detailed insights into cart behavior."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Cart analytics API working perfectly (4/4 tests passed). Returns all required fields: total_users_with_cart (3), total_products_in_carts (6), products array with proper structure (product_id, product_name, price, image_url, cart_count, users), user_carts array with enriched data. Product structure correctly includes image_url field as requested. All data properly enriched with product details."
+
+  - task: "Enhanced Admin Users Detailed API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Detailed users endpoint GET /api/admin/users/detailed implemented. Returns all user information INCLUDING hashed_password and phone_number (unlike /api/admin/users which excludes passwords). Also includes order_count, total_spent, cart_items_count, cart_details (enriched with product info), last_order_date. Users sorted by total_spent descending."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Users detailed API working perfectly (3/3 tests passed). Retrieved 8 users with all required fields: id, email, full_name, phone_number, hashed_password (as requested), order_count, total_spent, cart_items_count, cart_details, last_order_date. Cart details properly enriched with product info (product_id, product_name, price, quantity, image_url). All data correctly calculated and structured."
+
+  - task: "Enhanced Admin Dashboard Stats API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Comprehensive dashboard stats endpoint GET /api/admin/dashboard/stats implemented. Returns overview (total_users, total_products, total_orders, total_categories, total_sales, avg_order_value), recent_activity (sales_last_7_days, orders_last_7_days), users (boz_plus_members, conversion_rate, users_with_orders), inventory (out_of_stock, low_stock, in_stock), cart_analytics (users_with_items, total_items_in_carts, avg_cart_size), top_products (top 5 with revenue)."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Dashboard stats API working perfectly (3/3 tests passed). All required sections present: overview (8 users, 76 products), recent_activity, users, inventory, cart_analytics (3 users with items), top_products. All data properly calculated and structured. Cart analytics section correctly integrated into dashboard stats."
+
+  - task: "User Phone Update API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "User phone update endpoint PUT /api/auth/update-phone implemented. Allows authenticated users to update their phone number. Returns success message and updated phone number."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Phone update API working correctly (1/1 test passed). Successfully updated phone number from 5551111111 to 5559876543. Returns proper success message and updated phone number. FIXED: Changed users_collection to db.users (also fixed in update-email, update-password, forgot-password, reset-password endpoints)."
+
   - task: "Clean Product Names in Database"
     implemented: true
     working: true
