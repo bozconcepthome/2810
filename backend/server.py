@@ -1330,6 +1330,198 @@ app.include_router(api_router)
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
 
+# ============ ADMIN ENHANCED ANALYTICS ROUTES ============
+
+@api_router.get("/admin/cart-analytics")
+async def admin_get_cart_analytics(current_admin: Admin = Depends(get_current_admin)):
+    """Get cart analytics - which products are in how many carts"""
+    
+    # Get all users with their carts
+    users = await db.users.find({}, {"_id": 0, "id": 1, "email": 1, "full_name": 1, "cart": 1}).to_list(10000)
+    
+    # Count products in carts
+    product_cart_counts = {}
+    user_cart_details = []
+    
+    for user in users:
+        cart = user.get("cart", [])
+        if cart and len(cart) > 0:
+            user_cart_details.append({
+                "user_id": user["id"],
+                "email": user["email"],
+                "full_name": user["full_name"],
+                "cart_items": len(cart),
+                "cart": cart
+            })
+            
+            for item in cart:
+                product_id = item.get("product_id")
+                if product_id:
+                    if product_id not in product_cart_counts:
+                        product_cart_counts[product_id] = {
+                            "count": 0,
+                            "users": []
+                        }
+                    product_cart_counts[product_id]["count"] += 1
+                    product_cart_counts[product_id]["users"].append({
+                        "email": user["email"],
+                        "quantity": item.get("quantity", 1)
+                    })
+    
+    # Enrich with product details
+    enriched_products = []
+    for product_id, data in product_cart_counts.items():
+        product = await db.products.find_one({"id": product_id}, {"_id": 0})
+        if product:
+            enriched_products.append({
+                "product_id": product_id,
+                "product_name": product.get("product_name"),
+                "price": product.get("price"),
+                "image_url": product.get("image_urls", [None])[0],
+                "cart_count": data["count"],
+                "users": data["users"]
+            })
+    
+    # Sort by cart count
+    enriched_products.sort(key=lambda x: x["cart_count"], reverse=True)
+    
+    return {
+        "total_users_with_cart": len(user_cart_details),
+        "total_products_in_carts": len(product_cart_counts),
+        "products": enriched_products[:20],  # Top 20
+        "user_carts": user_cart_details
+    }
+
+@api_router.get("/admin/users/detailed")
+async def admin_get_users_detailed(current_admin: Admin = Depends(get_current_admin)):
+    """Get detailed user information including password hash, phone, cart, orders"""
+    
+    users = await db.users.find({}, {"_id": 0}).to_list(10000)
+    
+    enriched_users = []
+    for user in users:
+        # Get order count and total spent
+        orders = await db.orders.find({"user_id": user["id"]}, {"_id": 0, "total": 1, "created_at": 1, "status": 1}).to_list(1000)
+        order_count = len(orders)
+        total_spent = sum(order.get("total", 0) for order in orders)
+        
+        # Get cart info
+        cart = user.get("cart", [])
+        cart_items_count = len(cart)
+        
+        # Enrich cart with product details
+        enriched_cart = []
+        for item in cart:
+            product = await db.products.find_one({"id": item.get("product_id")}, {"_id": 0, "product_name": 1, "price": 1, "image_urls": 1})
+            if product:
+                enriched_cart.append({
+                    "product_id": item.get("product_id"),
+                    "product_name": product.get("product_name"),
+                    "price": product.get("price"),
+                    "quantity": item.get("quantity", 1),
+                    "image_url": product.get("image_urls", [None])[0]
+                })
+        
+        enriched_users.append({
+            **user,
+            "order_count": order_count,
+            "total_spent": round(total_spent, 2),
+            "cart_items_count": cart_items_count,
+            "cart_details": enriched_cart,
+            "last_order_date": orders[0].get("created_at") if orders else None
+        })
+    
+    # Sort by total spent
+    enriched_users.sort(key=lambda x: x["total_spent"], reverse=True)
+    
+    return enriched_users
+
+@api_router.get("/admin/dashboard/stats")
+async def admin_get_dashboard_stats(current_admin: Admin = Depends(get_current_admin)):
+    """Get comprehensive dashboard statistics"""
+    
+    # Basic counts
+    total_users = await db.users.count_documents({})
+    total_products = await db.products.count_documents({})
+    total_orders = await db.orders.count_documents({})
+    total_categories = await db.categories.count_documents({})
+    
+    # Sales statistics
+    orders = await db.orders.find({}, {"_id": 0, "total": 1, "created_at": 1}).to_list(10000)
+    total_sales = sum(order.get("total", 0) for order in orders)
+    avg_order_value = total_sales / total_orders if total_orders > 0 else 0
+    
+    # Recent sales (last 7 days)
+    seven_days_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+    recent_orders = [o for o in orders if o.get("created_at", "") > seven_days_ago]
+    recent_sales = sum(order.get("total", 0) for order in recent_orders)
+    
+    # User statistics
+    boz_plus_users = await db.users.count_documents({"is_boz_plus": True})
+    users_with_orders = await db.orders.distinct("user_id")
+    conversion_rate = (len(users_with_orders) / total_users * 100) if total_users > 0 else 0
+    
+    # Product statistics
+    out_of_stock = await db.products.count_documents({"stock_amount": 0})
+    low_stock = await db.products.count_documents({"stock_amount": {"$lte": 5, "$gt": 0}})
+    
+    # Cart statistics
+    users_with_cart = await db.users.find({"cart": {"$exists": True, "$ne": []}}, {"_id": 0, "cart": 1}).to_list(10000)
+    total_items_in_carts = sum(len(user.get("cart", [])) for user in users_with_cart)
+    
+    # Top selling products
+    all_orders = await db.orders.find({}, {"_id": 0, "items": 1}).to_list(10000)
+    product_sales = {}
+    for order in all_orders:
+        for item in order.get("items", []):
+            pid = item.get("product_id")
+            if pid:
+                product_sales[pid] = product_sales.get(pid, 0) + item.get("quantity", 1)
+    
+    # Get top 5 products
+    top_products = []
+    for pid, qty in sorted(product_sales.items(), key=lambda x: x[1], reverse=True)[:5]:
+        product = await db.products.find_one({"id": pid}, {"_id": 0, "product_name": 1, "price": 1, "image_urls": 1})
+        if product:
+            top_products.append({
+                "product_id": pid,
+                "product_name": product.get("product_name"),
+                "image_url": product.get("image_urls", [None])[0],
+                "total_sold": qty,
+                "revenue": qty * product.get("price", 0)
+            })
+    
+    return {
+        "overview": {
+            "total_users": total_users,
+            "total_products": total_products,
+            "total_orders": total_orders,
+            "total_categories": total_categories,
+            "total_sales": round(total_sales, 2),
+            "avg_order_value": round(avg_order_value, 2)
+        },
+        "recent_activity": {
+            "sales_last_7_days": round(recent_sales, 2),
+            "orders_last_7_days": len(recent_orders)
+        },
+        "users": {
+            "boz_plus_members": boz_plus_users,
+            "conversion_rate": round(conversion_rate, 2),
+            "users_with_orders": len(users_with_orders)
+        },
+        "inventory": {
+            "out_of_stock": out_of_stock,
+            "low_stock": low_stock,
+            "in_stock": total_products - out_of_stock - low_stock
+        },
+        "cart_analytics": {
+            "users_with_items": len(users_with_cart),
+            "total_items_in_carts": total_items_in_carts,
+            "avg_cart_size": round(total_items_in_carts / len(users_with_cart), 2) if users_with_cart else 0
+        },
+        "top_products": top_products
+    }
+
 # Mount static files for uploads
 app.mount("/uploads", StaticFiles(directory=str(uploads_dir)), name="uploads")
 
