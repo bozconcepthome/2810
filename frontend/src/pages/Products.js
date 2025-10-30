@@ -393,10 +393,10 @@ const Products = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-400 mb-2">Ürün Bulunamadı</h3>
-            <p className="text-gray-500">Arama kriterlerinize uygun ürün bulunamadı</p>
+          <div className="text-center py-32">
+            <Package className="w-20 h-20 text-gray-600 mx-auto mb-6" />
+            <h3 className="text-2xl font-semibold text-gray-400 mb-3">Ürün Bulunamadı</h3>
+            <p className="text-gray-500 text-lg">Arama kriterlerinize uygun ürün bulunamadı</p>
           </div>
         )}
       </div>
