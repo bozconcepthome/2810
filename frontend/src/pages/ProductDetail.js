@@ -379,10 +379,10 @@ const ProductDetail = () => {
                 onClick={addToCart}
                 data-testid="add-to-cart-button"
                 size="lg"
-                className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-bold py-6 text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                className="w-full bg-gradient-to-r from-[#C9A962] to-[#E6C888] hover:from-[#A78D4E] hover:to-[#C9A962] text-black font-bold py-6 text-lg rounded-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-[#C9A962]/60 active:scale-95 group"
               >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                Sepete Ekle
+                <ShoppingCart className="w-5 h-5 mr-2 group-hover:animate-bounce" />
+                <span className="group-hover:scale-105 transition-transform duration-200">Sepete Ekle</span>
               </Button>
             </div>
           </div>
