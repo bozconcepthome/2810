@@ -177,6 +177,10 @@ code {
     animation: float 3s ease-in-out infinite;
 }
 
+.animate-fadeIn {
+    animation: fadeIn 0.6s ease-out;
+}
+
 /* Product Card Hover Effects */
 .product-card-glow {
     position: relative;
