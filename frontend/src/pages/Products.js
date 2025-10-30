@@ -76,7 +76,9 @@ const Products = () => {
   };
 
   const applyFilters = () => {
-    let filtered = [...allProducts];
+    if (!selectedCategory) return;
+    
+    let filtered = allProducts.filter(p => p.category === selectedCategory);
 
     // Search filter
     if (searchQuery) {
@@ -84,11 +86,6 @@ const Products = () => {
         product.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
       );
-    }
-
-    // Category filter
-    if (selectedCategory && selectedCategory !== 'Tümü') {
-      filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
     // Price filter
@@ -111,9 +108,19 @@ const Products = () => {
     setFilteredProducts(filtered);
   };
 
-  const toggleCategory = (category) => {
-    trackCategoryClick(category);
-    setExpandedCategory(expandedCategory === category ? null : category);
+  const handleCategoryClick = (categoryName) => {
+    trackCategoryClick(categoryName);
+    setSelectedCategory(categoryName);
+    setViewMode('products');
+    setSearchQuery('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
+    setViewMode('categories');
+    setSearchQuery('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleProductClick = (product) => {
