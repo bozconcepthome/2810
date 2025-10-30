@@ -1558,6 +1558,93 @@ async def admin_get_dashboard_stats(current_admin: Admin = Depends(get_current_a
         "top_products": top_products
     }
 
+# ============ PREORDER PRODUCTS ROUTES ============
+
+@api_router.get("/preorder-products")
+async def get_preorder_products():
+    """Get active preorder products for public view"""
+    preorders = await db.preorder_products.find(
+        {"is_active": True}, 
+        {"_id": 0}
+    ).sort("order", 1).to_list(100)
+    return preorders
+
+@api_router.get("/admin/preorder-products")
+async def admin_get_preorder_products(current_admin: Admin = Depends(get_current_admin)):
+    """Get all preorder products for admin"""
+    preorders = await db.preorder_products.find({}, {"_id": 0}).sort("order", 1).to_list(100)
+    return preorders
+
+@api_router.post("/admin/preorder-products")
+async def admin_create_preorder(
+    preorder: PreorderProductCreate,
+    current_admin: Admin = Depends(get_current_admin)
+):
+    """Create new preorder product"""
+    # Get current max order
+    existing = await db.preorder_products.find({}, {"_id": 0, "order": 1}).to_list(1000)
+    max_order = max([p.get("order", 0) for p in existing], default=-1)
+    
+    preorder_dict = preorder.model_dump()
+    preorder_dict["id"] = str(uuid.uuid4())
+    preorder_dict["order"] = max_order + 1
+    preorder_dict["created_at"] = datetime.now(timezone.utc).isoformat()
+    
+    await db.preorder_products.insert_one(preorder_dict)
+    return preorder_dict
+
+@api_router.put("/admin/preorder-products/{preorder_id}")
+async def admin_update_preorder(
+    preorder_id: str,
+    preorder_update: PreorderProductUpdate,
+    current_admin: Admin = Depends(get_current_admin)
+):
+    """Update preorder product"""
+    update_data = {k: v for k, v in preorder_update.model_dump().items() if v is not None}
+    
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No update data provided")
+    
+    result = await db.preorder_products.update_one(
+        {"id": preorder_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Preorder product not found")
+    
+    updated = await db.preorder_products.find_one({"id": preorder_id}, {"_id": 0})
+    return updated
+
+@api_router.delete("/admin/preorder-products/{preorder_id}")
+async def admin_delete_preorder(
+    preorder_id: str,
+    current_admin: Admin = Depends(get_current_admin)
+):
+    """Delete preorder product"""
+    result = await db.preorder_products.delete_one({"id": preorder_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Preorder product not found")
+    
+    return {"message": "Preorder product deleted"}
+
+@api_router.post("/admin/preorder-products/reorder")
+async def admin_reorder_preorders(
+    data: dict,
+    current_admin: Admin = Depends(get_current_admin)
+):
+    """Reorder preorder products"""
+    preorders = data.get("preorders", [])
+    
+    for preorder_data in preorders:
+        await db.preorder_products.update_one(
+            {"id": preorder_data["id"]},
+            {"$set": {"order": preorder_data["order"]}}
+        )
+    
+    return {"message": "Preorder products reordered"}
+
 # ============ INIT ROUTE ============
 
 @api_router.get("/")
