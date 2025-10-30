@@ -256,14 +256,14 @@ const Products = () => {
 
           {/* Advanced Filters Panel */}
           {showFilters && (
-            <div className="mt-4 p-4 bg-[#1C1C1C] border border-gray-800 rounded-xl">
+            <div className="mt-6 p-6 bg-[#1C1C1C] border border-gray-800 rounded-xl">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-white font-semibold">Fiyat Aralığı</h3>
                 <button onClick={() => setShowFilters(false)} className="text-gray-400 hover:text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-6">
                 <input
                   type="number"
                   placeholder="Min"
