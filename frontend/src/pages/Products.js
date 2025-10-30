@@ -69,11 +69,6 @@ const Products = () => {
       setLoading(false);
     }
   };
-      toast.error('Ürünler yüklenemedi');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const applyFilters = () => {
     if (!selectedCategory) return;
