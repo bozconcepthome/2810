@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ChevronRight, Grid, Package, Crown, TrendingUp, Flame, Star, ShoppingCart } from 'lucide-react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { ChevronRight, Grid, Package, Crown, TrendingUp, Flame, Star, ShoppingCart, Search, SlidersHorizontal, X } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
@@ -12,12 +12,18 @@ import confetti from 'canvas-confetti';
 const API_URL = process.env.REACT_APP_BACKEND_URL + '/api';
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [allProducts, setAllProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [categoryProducts, setCategoryProducts] = useState({});
-  const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [expandedCategory, setExpandedCategory] = useState(null);
   const [addingToCart, setAddingToCart] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'Tümü');
+  const [sortBy, setSortBy] = useState('default');
+  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [showFilters, setShowFilters] = useState(false);
+  
   const { user, token } = useAuth();
   const { addToCart } = useCart();
   const navigate = useNavigate();
