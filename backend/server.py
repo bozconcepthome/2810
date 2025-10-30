@@ -376,7 +376,7 @@ async def update_password(
     hashed_new_password = pwd_context.hash(new_password)
     
     # Update password
-    await users_collection.update_one(
+    await db.users.update_one(
         {"id": current_user.id},
         {"$set": {"hashed_password": hashed_new_password}}
     )
