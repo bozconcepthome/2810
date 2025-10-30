@@ -440,6 +440,11 @@ const ProductDetail = () => {
                 <ShoppingCart className="w-5 h-5 mr-2 group-hover:animate-bounce" />
                 <span className="group-hover:scale-105 transition-transform duration-200">Sepete Ekle</span>
               </Button>
+              
+              {/* Brand Guarantee Badge */}
+              <div className="flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-[#C9A962]/10 to-[#E6C888]/10 border border-[#C9A962]/30 rounded-lg">
+                <span className="text-xs text-[#C9A962] font-bold">✓ Boz Concept Home Güvencesiyle</span>
+              </div>
             </div>
           </div>
         </div>
