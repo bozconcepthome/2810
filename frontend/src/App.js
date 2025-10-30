@@ -25,6 +25,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminUsers from './pages/admin/AdminUsers';
+import AdminCategoriesNew from './pages/admin/AdminCategoriesNew';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminCategoryProducts from './pages/admin/AdminCategoryProducts';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
