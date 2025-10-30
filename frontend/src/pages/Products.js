@@ -17,6 +17,7 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
+  const [preorderProducts, setPreorderProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,6 +34,7 @@ const Products = () => {
   useEffect(() => {
     trackPageView('Products Page');
     fetchData();
+    fetchPreorderProducts();
   }, []);
 
   useEffect(() => {
