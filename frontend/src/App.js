@@ -155,8 +155,8 @@ function App() {
                 <Route index element={<Navigate to="/admin/dashboard" replace />} />
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProducts />} />
-                <Route path="products/new" element={<AdminProductForm />} />
-                <Route path="products/edit/:id" element={<AdminProductForm />} />
+                <Route path="products/new" element={<AdminProductFormEnhanced />} />
+                <Route path="products/edit/:id" element={<AdminProductFormEnhanced />} />
                 <Route path="preorders" element={<AdminPreorders />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="users" element={<AdminUsersEnhanced />} />
