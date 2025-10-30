@@ -443,11 +443,12 @@ const Products = () => {
 
                   {/* Product Info */}
                   <div className="p-6 space-y-4">
-                    {/* Category Tag */}
-                    <div className="flex items-center gap-2 text-sm">
+                    {/* Brand Badge */}
+                    <div className="flex items-center justify-between gap-2">
                       <div className="px-3 py-1 bg-[#C9A962]/10 border border-[#C9A962]/30 rounded-lg">
-                        <span className="text-[#C9A962] font-medium">{product.category}</span>
+                        <span className="text-[#C9A962] font-medium text-sm">{product.category}</span>
                       </div>
+                      <span className="text-xs text-gray-500 italic">by Boz Concept</span>
                     </div>
 
                     {/* Product Name */}
