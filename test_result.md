@@ -102,9 +102,25 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Admin paneli oluşturulması - Ürün yönetimi, sipariş yönetimi, kullanıcı yönetimi, dashboard istatistikleri"
+user_problem_statement: "Ürün isimlerini temizleme - MODELKODU ve STOK KODU gibi internal kodları kaldırarak sadece açıklayıcı ürün isimlerini göstermek"
 
 backend:
+  - task: "Clean Product Names in Database"
+    implemented: true
+    working: true
+    file: "backend/fix_product_names.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created scripts to clean product names by extracting clean names from descriptions. Removed internal codes (MODELKODU, STOK KODU) and kept only descriptive names. Updated 74 out of 76 products in test_database."
+      - working: true
+        agent: "main"
+        comment: "✅ Product names successfully cleaned. 65 products have clean names (15-60 characters), 8 are longer, 3 are shorter. All products now show customer-friendly names without internal codes."
+
+backend_old:
   - task: "Admin Authentication System"
     implemented: true
     working: true
