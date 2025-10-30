@@ -133,6 +133,41 @@ class CategoryReorder(BaseModel):
 class ProductReorder(BaseModel):
     products: List[dict]  # [{"id": "...", "category_order": 0}, ...]
 
+class PreorderProduct(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    product_name: str
+    description: Optional[str] = None
+    estimated_price: float
+    estimated_release_date: Optional[str] = None
+    image_urls: List[str] = []
+    category: Optional[str] = None
+    discount_percentage: Optional[int] = 0  # Early bird discount
+    is_active: bool = True
+    order: int = 0
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class PreorderProductCreate(BaseModel):
+    product_name: str
+    description: Optional[str] = None
+    estimated_price: float
+    estimated_release_date: Optional[str] = None
+    image_urls: List[str] = []
+    category: Optional[str] = None
+    discount_percentage: Optional[int] = 0
+    is_active: Optional[bool] = True
+
+class PreorderProductUpdate(BaseModel):
+    product_name: Optional[str] = None
+    description: Optional[str] = None
+    estimated_price: Optional[float] = None
+    estimated_release_date: Optional[str] = None
+    image_urls: Optional[List[str]] = None
+    category: Optional[str] = None
+    discount_percentage: Optional[int] = None
+    is_active: Optional[bool] = None
+    order: Optional[int] = None
+
 class CartItem(BaseModel):
     product_id: str
     quantity: int = 1
