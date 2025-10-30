@@ -47,9 +47,28 @@ const Products = () => {
 
       // Fetch categories
       const categoriesRes = await axios.get(`${API_URL}/categories`);
-      setCategories(['Tümü', ...categoriesRes.data.categories]);
+      const cats = categoriesRes.data.categories;
+      setCategories(cats);
+
+      // Create category data with preview products
+      const categoryDataWithProducts = cats.map(cat => {
+        const categoryProducts = productsRes.data.filter(p => p.category === cat);
+        return {
+          name: cat,
+          productCount: categoryProducts.length,
+          previewImage: categoryProducts[0]?.image_urls?.[0] || null,
+          products: categoryProducts
+        };
+      }).filter(cat => cat.productCount > 0); // Only show categories with products
+
+      setCategoryData(categoryDataWithProducts);
     } catch (error) {
       console.error('Failed to fetch data:', error);
+      toast.error('Ürünler yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
       toast.error('Ürünler yüklenemedi');
     } finally {
       setLoading(false);
