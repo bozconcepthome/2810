@@ -37,6 +37,15 @@ const Products = () => {
     fetchPreorderProducts();
   }, []);
 
+  const fetchPreorderProducts = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/preorder-products`);
+      setPreorderProducts(response.data);
+    } catch (error) {
+      console.error('Failed to fetch preorder products:', error);
+    }
+  };
+
   useEffect(() => {
     applyFilters();
   }, [allProducts, searchQuery, selectedCategory, sortBy, priceRange]);
