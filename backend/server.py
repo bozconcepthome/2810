@@ -660,24 +660,66 @@ async def admin_upload_image(
     file: UploadFile = File(...),
     current_admin: Admin = Depends(get_current_admin)
 ):
+    """Upload and compress image - accepts up to 20MB, compresses to ~1-2MB"""
+    
     # Create uploads directory if it doesn't exist
     uploads_dir = Path("/app/backend/uploads")
     uploads_dir.mkdir(exist_ok=True)
     
-    # Generate unique filename
-    file_extension = Path(file.filename).suffix
-    unique_filename = f"{uuid.uuid4()}{file_extension}"
-    file_path = uploads_dir / unique_filename
+    # Validate file type
+    if not file.content_type.startswith('image/'):
+        raise HTTPException(status_code=400, detail="Sadece resim dosyası yüklenebilir")
     
-    # Save file
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    # Read file content
+    contents = await file.read()
     
-    # Return public URL
-    backend_url = os.environ.get('BACKEND_URL', 'https://luxury-shop-update.preview.emergentagent.com')
-    image_url = f"{backend_url}/uploads/{unique_filename}"
+    # Check original size (max 20MB)
+    if len(contents) > 20 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Dosya boyutu 20MB'dan küçük olmalıdır")
     
-    return {"image_url": image_url}
+    try:
+        # Open image with PIL
+        img = Image.open(io.BytesIO(contents))
+        
+        # Convert RGBA to RGB if necessary
+        if img.mode in ('RGBA', 'LA', 'P'):
+            background = Image.new('RGB', img.size, (255, 255, 255))
+            if img.mode == 'P':
+                img = img.convert('RGBA')
+            background.paste(img, mask=img.split()[-1] if img.mode in ('RGBA', 'LA') else None)
+            img = background
+        
+        # Resize if too large (max 1920px width/height)
+        max_dimension = 1920
+        if img.width > max_dimension or img.height > max_dimension:
+            ratio = min(max_dimension / img.width, max_dimension / img.height)
+            new_size = (int(img.width * ratio), int(img.height * ratio))
+            img = img.resize(new_size, Image.Resampling.LANCZOS)
+        
+        # Generate unique filename
+        unique_filename = f"{uuid.uuid4()}.jpg"
+        file_path = uploads_dir / unique_filename
+        
+        # Save with compression (quality 85 = good balance)
+        img.save(file_path, 'JPEG', quality=85, optimize=True)
+        
+        # Check compressed size
+        compressed_size = os.path.getsize(file_path)
+        compression_ratio = (1 - compressed_size / len(contents)) * 100
+        
+        # Return public URL
+        backend_url = os.environ.get('BACKEND_URL', 'https://luxury-shop-update.preview.emergentagent.com')
+        image_url = f"{backend_url}/uploads/{unique_filename}"
+        
+        return {
+            "image_url": image_url,
+            "original_size_mb": round(len(contents) / (1024 * 1024), 2),
+            "compressed_size_mb": round(compressed_size / (1024 * 1024), 2),
+            "compression_ratio": round(compression_ratio, 1)
+        }
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Görsel işleme hatası: {str(e)}")
 
 # ============ ADMIN ORDER ROUTES ============
 
