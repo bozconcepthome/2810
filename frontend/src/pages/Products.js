@@ -377,7 +377,7 @@ const Products = () => {
                       <div
                         key={product.id}
                         data-testid={`product-card-${product.id}`}
-                        className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300"
+                        className="group bg-black rounded-2xl overflow-hidden border border-gray-800 hover:border-[#C9A962] transition-all duration-300 hover:shadow-2xl hover:shadow-[#C9A962]/30 hover:scale-105 hover:-translate-y-2"
                       >
                         <Link
                           to={`/products/${product.id}`}
