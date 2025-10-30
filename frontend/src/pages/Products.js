@@ -33,27 +33,62 @@ const Products = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    applyFilters();
+  }, [allProducts, searchQuery, selectedCategory, sortBy, priceRange]);
+
   const fetchData = async () => {
     try {
-      // Fetch best sellers
-      const bestSellersRes = await axios.get(`${API_URL}/products/best-sellers/list`);
-      setBestSellers(bestSellersRes.data);
+      // Fetch all products
+      const productsRes = await axios.get(`${API_URL}/products`);
+      setAllProducts(productsRes.data);
 
       // Fetch categories
       const categoriesRes = await axios.get(`${API_URL}/categories`);
-      const cats = categoriesRes.data.categories;
-      setCategories(cats);
-
-      // Fetch products for each category
-      const productsMap = {};
-      for (const cat of cats) {
-        const productsRes = await axios.get(`${API_URL}/products?category=${encodeURIComponent(cat)}`);
-        productsMap[cat] = productsRes.data;
-      }
-      setCategoryProducts(productsMap);
+      setCategories(['Tümü', ...categoriesRes.data.categories]);
     } catch (error) {
       console.error('Failed to fetch data:', error);
+      toast.error('Ürünler yüklenemedi');
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const applyFilters = () => {
+    let filtered = [...allProducts];
+
+    // Search filter
+    if (searchQuery) {
+      filtered = filtered.filter(product =>
+        product.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+    }
+
+    // Category filter
+    if (selectedCategory && selectedCategory !== 'Tümü') {
+      filtered = filtered.filter(product => product.category === selectedCategory);
+    }
+
+    // Price filter
+    filtered = filtered.filter(product => {
+      const price = product.discounted_price || product.price;
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+
+    // Sort
+    if (sortBy === 'price-asc') {
+      filtered.sort((a, b) => (a.discounted_price || a.price) - (b.discounted_price || b.price));
+    } else if (sortBy === 'price-desc') {
+      filtered.sort((a, b) => (b.discounted_price || b.price) - (a.discounted_price || a.price));
+    } else if (sortBy === 'name-asc') {
+      filtered.sort((a, b) => a.product_name.localeCompare(b.product_name, 'tr'));
+    } else if (sortBy === 'name-desc') {
+      filtered.sort((a, b) => b.product_name.localeCompare(a.product_name, 'tr'));
+    }
+
+    setFilteredProducts(filtered);
+  };
       setLoading(false);
     }
   };
