@@ -51,11 +51,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" data-testid="logo-link" className="flex items-center space-x-2 transition-transform hover:scale-105">
+          <Link to="/" data-testid="logo-link" className="flex items-center space-x-2 transition-all hover:scale-110 duration-300 group">
             <img
               src="https://customer-assets.emergentagent.com/job_b295a86f-9e3f-46e9-b312-d8a568042b59/artifacts/sggtoyzw_assets_client_upload_media_8770e291c8248ccfb52eae7c92887d4e18d907a5_media_01jw37p102f5pajm4m2ckmt4gk.png"
               alt="Boz Concept Home"
-              className="h-12 w-auto"
+              className="h-12 w-auto drop-shadow-2xl group-hover:drop-shadow-[0_0_15px_rgba(201,169,98,0.8)] transition-all duration-300"
             />
           </Link>
 
