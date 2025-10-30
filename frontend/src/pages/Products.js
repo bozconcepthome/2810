@@ -338,20 +338,20 @@ const Products = () => {
                 </Link>
 
                 {/* Product Info */}
-                <div className="p-4">
+                <div className="p-6">
                   <Link to={`/products/${product.id}`}>
-                    <h3 className="text-white font-semibold text-base mb-2 line-clamp-2 group-hover:text-[#C9A962] transition-colors">
+                    <h3 className="text-white font-semibold text-base mb-3 line-clamp-2 group-hover:text-[#C9A962] transition-colors leading-relaxed">
                       {product.product_name}
                     </h3>
                   </Link>
                   
-                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
+                  <div className="flex items-center gap-2 text-sm text-gray-400 mb-4">
                     <Package className="w-4 h-4" />
                     <span>{product.category}</span>
                   </div>
 
                   {/* Pricing */}
-                  <div className="mb-3">
+                  <div className="mb-4">
                     <div className="flex items-center gap-2">
                       {product.discounted_price ? (
                         <>
