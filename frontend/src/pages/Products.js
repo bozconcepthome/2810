@@ -287,9 +287,9 @@ const Products = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+      <div className="max-w-[1800px] mx-auto px-8 sm:px-10 lg:px-20 mt-16">
         {/* Results Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-12 flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-bold text-white mb-2">
               {selectedCategory === 'Tümü' ? 'Tüm Ürünler' : selectedCategory}
@@ -302,7 +302,7 @@ const Products = () => {
 
         {/* Products Grid */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-10 gap-y-16 mb-16">
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
