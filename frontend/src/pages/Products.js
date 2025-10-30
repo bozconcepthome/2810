@@ -201,10 +201,10 @@ const Products = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-20 bg-black" data-testid="products-page">
+    <div className="min-h-screen pt-20 pb-20 bg-black" data-testid="products-page" style={{ zoom: '0.9' }}>
       {/* Top Bar with Search and Filters */}
       <div className="sticky top-16 z-30 bg-black/95 backdrop-blur-sm border-b border-gray-800 py-4">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1800px] mx-auto px-8 lg:px-20">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search Bar */}
             <div className="relative w-full lg:w-96">
