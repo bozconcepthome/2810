@@ -9,7 +9,7 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_BACKEND_URL + '/api';
 
 const Account = () => {
-  const { user, token, refreshUser } = useAuth();
+  const { user, token, refreshUser, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   
   const [loading, setLoading] = useState(false);
